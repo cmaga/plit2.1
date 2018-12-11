@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <div class="list-group">
+        <div class="list-header list-group-item " style="background-color: #0E7DC2;">
+            <div class="row">
+                <div class="col">Bid Number</div>
+                <div class="col-4">Bid Description</div>
+                <div class="col-2">Request Date</div>
+                <div class="col-2">Bid Open Date</div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+        <div ng-repeat="bid in model.bids | orderBy: ['-Requested_Dttm', '-Bid_ID']">
+            <div class="list-group-item">
+                <div class="row bid-row">
+                    <div class="col">{{bid.Bid_ID}}</div>
+                    <div class="col-4" style="overflow: hidden; word-wrap: break-word;">{{bid.Proj_Name}}</div>
+                    <div class="col-2">{{model.formatDate(bid.Requested_Dttm)}}</div>
+                    <div class="col-2">{{model.formatDate(bid.Timeframe)}}</div>
+                    <div class="col-2"><a href="#!/view-bid/{{bid._id}}" class="btn btn-success btn-block">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

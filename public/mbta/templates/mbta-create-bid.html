@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="alert alert-warning" ng-if="model.errorText">
+    {{model.errorText}}
+</div><h2>Bid Number Request Form</h2>
+<div class="add-IFB">
+    <form name="bidNumRequest">
+        <label>Buyer ID:</label>
+        <input class="longInput" type="text" placeholder="Buyer Name" ng-model="model.user.username" required>
+        <br/>
+        <label>Project Name:</label>
+        <input class="longInput" type="text" placeholder="Example: Portable XG-75PE Radios" ng-model="model.projName" required>
+        <br/>
+        <label>Requisition Number:</label>
+        <input class="longInput" type="text" placeholder="Example: 196-001980" ng-model="model.reqID" required>
+        <br/>
+        <label>Funding Source Code:</label>
+        <select ng-model="model.fundCode" required>
+            <option>MBTAN</option>
+            <option>MBTAC</option>
+            <option>MBTAF</option>
+        </select>
+        <br/>
+        <label>Bid Type</label>
+        <select ng-model="model.bidType" required>
+            <option value = "IFB">IFB (Invitation for Bid)</option>
+            <option value = "RFP">RFP (Request for Proposals)</option>
+            <option value = "LOI">LOI (Letter of Interest)</option>
+            <option value = "RFI">RFI (Request for Information)</option>
+            <option value = "RFR">RFR (Request for Response)</option>
+        </select>
+        <br/>
+        <label>Bid Opening Date:</label>
+        <input type="datetime-local" style="width:50%;" ng-model="model.timeFrame">
+
+        <br/>
+        <br/>
+        <label style="float: left;">Comments: </label>
+        <textarea rows="2" cols="40" ng-model="model.comments"></textarea>
+        <br/>
+
+
+        <button class="btn btn-block btn-success" ng-click="model.submitBid()">Submit Bid</button>
+    </form>
+</div>
+</div>

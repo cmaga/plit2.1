@@ -1,0 +1,65 @@
+<div class="container-fluid">
+    <div class="float-right container">
+
+        <input type="text" ng-model="searchText" placeholder="Search Fields"
+               class="form-control mx-1">
+
+    </div>
+    <br>
+    <br>
+    <h1 class="display-4">Contracts</h1>
+    <div class="list-group">
+        <div class="list-header list-group-item " style="background-color: #0E7DC2;">
+            <div class="row">
+                <div ng-if = "model.user.role == 'Admin'">
+                <div class="col-1">Hide</div>
+                </div>
+                <div ng-if = "model.user.role != 'Admin'">
+                    <div class="col-1"></div>
+                </div>
+                <div class="col-3">Vendor Name</div>
+                <div class="col-2">Contract ID</div>
+                <div class="col-1">Vendor ID</div>
+                <div class="col-1">Max Amount</div>
+                <div class="col-1">Expiration Date</div>
+                <div class="col-1"># of Lines</div>
+                <div class="col-2">Description</div>
+
+            </div>
+        </div>
+        <div ng-repeat="con in model.contracts |filter: searchText | orderBy: ['Vendor_Name', 'Contract_ID']">
+            <div class="list-group-item">
+                <div class="row">
+                    <div ng-if = "model.user.role == 'Admin'">
+                        <div class="col-1" ng-if="con.hidden"><a ng-click="model.unHide(con)"
+                                                               class="btn fas fa-eye-slash mx-1 center-block"
+                                                               style="color: red"></a>
+                        </div>
+                        <div class="col-1" ng-if="!con.hidden"><a ng-click="model.hide(con)"
+                                                                class="btn far fa-eye-slash mx-1 center-block" style="color: grey"></a>
+                        </div>
+                    </div>
+                    <div ng-if = "model.user.role != 'Admin'">
+                        <div class="col-1"></div>
+                    </div>
+
+                    <div class="col-3">{{con.Vendor_Name}}</div>
+                    <div class="col-2">{{con.Contract_ID}}</div>
+                    <div class="col-1">{{con.Vendor_ID}}</div>
+                    <div class="col-1">{{model.formatMoney(model.sumOfLines(con.lines))}}</div>
+                    <div class="col-1">{{model.formatDate(con.Expire_Date)}}</div>
+                    <div class="col-1">{{con.lines.length}}</div>
+                    <div class="col-2">{{model.concatDescr(con.lines)}}</div>
+
+
+                </div>
+            </div>
+        </div>
+        <br/>
+
+
+    </div>
+
+</div>
+<div class="fixed-bottom border-box"><label>Data Last Updated: &nbsp;</label>{{model.last_Update | date: 'medium'}}
+</div>

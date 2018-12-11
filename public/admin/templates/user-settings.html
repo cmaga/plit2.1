@@ -1,0 +1,27 @@
+<div class="container">
+    <h1>Change My Password</h1>
+    <input type="password"
+           class="form-control"
+           placeholder="New Password"
+           ng-model="newPassword1"/>
+    <input type="password"
+           ng-model="newPassword2"
+           class="form-control"
+           placeholder="Verify New Password"/>
+    <a ng-click="model.changePW(newPassword1,newPassword2)"
+       class="btn btn-primary btn-block">Change Password</a>
+</div>
+<br/>
+<div class="container">
+    <h1>Personal Information</h1>
+    <input type="text"
+           class="form-control"
+           placeholder="Full Name"
+           ng-model="model.user.fullname"/>
+    <input type="text"
+           ng-model="model.user.email"
+           class="form-control"
+           placeholder="Email"/>
+    <a ng-click="model.updatePersonalInfo()"
+       class="btn btn-primary btn-block">Update Information</a>
+</div>

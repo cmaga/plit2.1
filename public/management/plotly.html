@@ -1,0 +1,12 @@
+<head>
+    <script src="plotly-latest.min.js"></script>
+</head>
+<div id="myDiv"></div>
+<script>
+    Plotly.d3.json("/management/trello-cards-summary.json", function (error, data) {
+        console.log(data);
+        var layout = {barmode: 'stack'};
+        Plotly.newPlot('myDiv', data, layout);
+    });
+
+</script>

@@ -1,0 +1,54 @@
+(function () {
+    angular
+        .module('Chrubix')
+        .controller('adminRegistrationController', adminController);
+
+    function adminController($location, userAdminService) {
+
+        var model = this;
+        model.role ="";
+        // event handlers
+        model.register = register;
+
+        // implementation
+        function register(username, password, password2) {
+            console.log('registering')
+            if(!password) {
+                model.error = "Password is required";
+                return;
+            }
+            if(!password2) {
+                model.error = "Passwords are required";
+                return;
+            }
+            if(!username) {
+                model.error = "A username is required";
+                return;
+            }
+            if(password !== password2) {
+                model.error = "Passwords must match";
+                return;
+            }
+
+            var found = null; //userService.findUserByUsername(username);
+
+            if(found !== null) {
+                model.error = "Username is not available";
+            } else {
+                var user = {
+                    username: username,
+                    password: password,
+                    role: model.role,
+                    fullname: model.fullname,
+                    email: model.email
+                };
+                // model.message = user;
+                userAdminService
+                    .createUser(user)
+                    .then(function(user){
+                        $location.url('/');
+                    });
+            }
+        }
+    }
+})();
