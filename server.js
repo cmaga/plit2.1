@@ -17,5 +17,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./app.js");
-var port = process.env.PORT || 3000;
+var release = process.argv[2]
+var port = release == 'prod' ? 3000 : 8005;
+console.log(port)
 app.listen(port);

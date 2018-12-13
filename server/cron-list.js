@@ -7,5 +7,7 @@ cron.schedule("* */4 * * *", function(){
     trello.init();
 
 });
+console.log(process.argv)
+cronport = process.argv[2] == 'prod' ? 3128 : 8128
 
-app.listen(3128);
+app.listen(cronport);
