@@ -10,12 +10,12 @@
         <div class="col-7 justify-content-end">
             <form ng-submit="model.redir()" class="d-flex" ng-hide="model.ifIE">
                 <input type="text" id="reqid_input" ng-model="model.inputReqid" name="reqid" class="form-control mx-1"
-                       placeholder="Req ID" pattern="[_A-Za-z0-9\-]*">
+                                                                                             placeholder="Req ID" pattern="[_A-Za-z0-9\-]*">
                 <button type="button" class="btn btn-primary mx-1" ng-click="model.redir()"><i
-                        class="fas fa-search mx-1"></i>Search
+                                                                   class="fas fa-search mx-1"></i>Search
                 </button>
                 <button type="button" class="btn btn-info mx-1" onclick="window.print()"><i
-                        class="fas fa-print mx-1"></i>Print
+                                                                class="fas fa-print mx-1"></i>Print
                 </button>
             </form>
         </div>
@@ -38,24 +38,24 @@
             <div class="col-4">
                 <table>
                     <tbody>
-                    <tr>
-                        <td><b>Ship To:</b></td>
-                        <td><b>{{model.REQJSON['Ship_To']['Description']}}<b></td>
-                    </tr>
-                    <tr class="border-top">
-                        <td/>
-                        <td>{{model.REQJSON['Ship_To']['Address_1']}}</td>
-                    </tr>
-                    <tr>
-                        <td/>
-                        <td>{{model.REQJSON['Ship_To']['Address_2']}}</td>
-                    </tr>
-                    <tr>
-                        <td/>
-                        <td>{{model.REQJSON['Ship_To']['City']}}, {{model.REQJSON['Ship_To']['State']}}
-                            0{{model.REQJSON['Ship_To']['Zip_Code']}}
-                        </td>
-                    </tr>
+                        <tr>
+                            <td><b>Ship To:</b></td>
+                            <td><b>{{model.REQJSON['Ship_To']['Description']}}<b></td>
+                        </tr>
+                        <tr class="border-top">
+                            <td/>
+                                <td>{{model.REQJSON['Ship_To']['Address_1']}}</td>
+                        </tr>
+                        <tr>
+                            <td/>
+                                <td>{{model.REQJSON['Ship_To']['Address_2']}}</td>
+                        </tr>
+                        <tr>
+                            <td/>
+                                <td>{{model.REQJSON['Ship_To']['City']}}, {{model.REQJSON['Ship_To']['State']}}
+                                    0{{model.REQJSON['Ship_To']['Zip_Code']}}
+                                </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -63,37 +63,37 @@
             <div class="col-7">
                 <table class="tbl-padding float-right">
                     <tbody>
-                    <tr>
-                        <td>Business Unit:</td>
-                        <td></td>
-                        <td></td>
-                        <td><b>{{model.REQJSON['Business_Unit']}}</b></td>
-                        <td><b>{{model.REQJSON['Status']}}</b></td>
-                    </tr>
-                    <tr class="border-top">
-                        <td><b>Req ID</b></td>
-                        <td></td>
-                        <td></td>
-                        <td><b>Date</b></td>
+                        <tr>
+                            <td>Business Unit:</td>
+                            <td></td>
+                            <td></td>
+                            <td><b>{{model.REQJSON['Business_Unit']}}</b></td>
+                            <td><b>{{model.REQJSON['Status']}}</b></td>
+                        </tr>
+                        <tr class="border-top">
+                            <td><b>Req ID</b></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>Date</b></td>
 
-                        <td><b>Requester</b></td>
-                        <td><b>Currency</b></td>
+                            <td><b>Requester</b></td>
+                            <td><b>Currency</b></td>
 
-                        <td><b>Fund</b></td>
-                        <td><b>Account</b></td>
-                        <td><b>Dept</b></td>
+                            <td><b>Fund</b></td>
+                            <td><b>Account</b></td>
+                            <td><b>Dept</b></td>
 
-                    </tr>
-                    <tr>
-                        <td colSpan="2"><code>{{model.REQJSON['REQ_No']}}</code></td>
-                        <td></td>
-                        <td>{{model.REQJSON['REQ_Date'] | date: 'MM/dd/yyyy'}}</td>
-                        <td>{{model.REQJSON['Requester']}}</td>
-                        <td>{{model.REQJSON['Currency']}}</td>
-                        <td>{{model.REQJSON['Fund']}}</td>
-                        <td><code>{{model.REQJSON['Account']}}</code></td>
-                        <td><code>{{model.REQJSON['Department']['Number']}}</code></td>
-                    </tr>
+                        </tr>
+                        <tr>
+                            <td colSpan="2"><code>{{model.REQJSON['REQ_No']}}</code></td>
+                            <td></td>
+                            <td>{{model.REQJSON['REQ_Date'] | date: 'MM/dd/yyyy'}}</td>
+                            <td>{{model.REQJSON['Requester']}}</td>
+                            <td>{{model.REQJSON['Currency']}}</td>
+                            <td>{{model.REQJSON['Fund']}}</td>
+                            <td><code>{{model.REQJSON['Account']}}</code></td>
+                            <td><code>{{model.REQJSON['Department']['Number']}}</code></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -103,30 +103,30 @@
             <div class="col-12">
                 <table class="table table-sm table-hover">
                     <thead>
-                    <tr>
-                        <th>Ln/Schd</th>
-                        <th>Item</th>
-                        <th>Description</th>
-                        <th>Mfg ID</th>
-                        <th>Quantity</th>
-                        <th>UOM</th>
-                        <th>Price</th>
-                        <th>Ext. Amt</th>
-                        <th>Due Date</th>
-                    </tr>
+                        <tr>
+                            <th>Ln/Schd</th>
+                            <th>Item</th>
+                            <th>Description</th>
+                            <th>Mfg ID</th>
+                            <th>Quantity</th>
+                            <th>UOM</th>
+                            <th>Price</th>
+                            <th>Ext. Amt</th>
+                            <th>Due Date</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="req in model.REQJSON['lines'] | orderBy:'Line_No'">
-                        <td>{{req.Line_No}} - {{req.Schedule_No}}</td>
-                        <td>{{req.Item}}</td>
-                        <td>{{req.More_Info}}</td>
-                        <td>{{req.MFG_ID}}</td>
-                        <td class="text-right">{{req.Quantity}}</td>
-                        <td>{{req.UOM}}</td>
-                        <td class="text-right">{{req.Unit_Price | currency}}</td>
-                        <td class="text-right">{{req.Line_Total| currency}}</td>
-                        <td>{{req.Due_Date | date: 'MM/dd/yyyy'}}</td>
-                    </tr>
+                        <tr ng-repeat="req in model.REQJSON['lines'] | orderBy:'Line_No'">
+                            <td>{{req.Line_No}} - {{req.Schedule_No}}</td>
+                            <td>{{req.Item}}</td>
+                            <td>{{req.More_Info}}</td>
+                            <td>{{req.MFG_ID}}</td>
+                            <td class="text-right">{{req.Quantity}}</td>
+                            <td>{{req.UOM}}</td>
+                            <td class="text-right">{{req.Unit_Price | currency}}</td>
+                            <td class="text-right">{{req.Line_Total| currency}}</td>
+                            <td>{{req.Due_Date | date: 'MM/dd/yyyy'}}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -149,18 +149,18 @@
         </div>
         <hr>
 
-        <h4>Add a Note: </h4>
-        <textarea rows="2" width = '100%' ng-model="model.note"></textarea>
-        <div class="btn btn-block btn-success" ng-click="model.submitNote()">Add Note</div>
-
-        <br/>
         <h4>User Notes: </h4>
         <div ng-repeat="comment in model.REQJSON.User_Notes" class="row my-1">
             <div class="col-12">
-                <b>{{comment.User}}</b>, {{model.formatDate(comment.Date)}}
-                {{comment.Note_Info}}
+                <b>{{comment.User}}</b> at {{comment.Date | date : 'short'}}: {{comment.Note_Info}}
 
             </div>
         </div>
+        <br/>
+        <h4>Add a Note: </h4>
+        <div class="py-1">
+        <textarea class="col-12" rows="2" width = '100%' ng-model="model.note"></textarea>
+        </div>
+        <div class="btn btn-block btn-success" ng-click="model.submitNote()">Add Note</div>
     </div>
 </div>
