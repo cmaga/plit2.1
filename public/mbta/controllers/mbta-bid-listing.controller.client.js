@@ -15,9 +15,14 @@
         };
         model.getBids();
 
+        model.bidNumberComparator = function(bidNumOne, bidNumTwo) {
+            var id_one = parseInt(bidNumOne.value.replace(/\D/g, ''))
+            var id_two = parseInt(bidNumTwo.value.replace(/\D/g, ''))
+            return (id_one > id_two) ? 1 : -1 
+        }
+
         model.formatDate = function (mongoDate) {
             var date = new Date(mongoDate);
-            console.log(date);
             if(date == "Invalid Date"){
                 return "N/A"
             }

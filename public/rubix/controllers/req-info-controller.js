@@ -126,7 +126,7 @@
         console.log(note);
         adminService.addNote(note, this.inputParams.reqid)
             .then(
-               // location.reload()
+               location.reload()
             )
     }
     model.formatDate = function(dateInMil){

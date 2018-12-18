@@ -9,7 +9,7 @@
                 <div class="col-2"></div>
             </div>
         </div>
-        <div ng-repeat="bid in model.bids | orderBy: ['-Requested_Dttm', '-Bid_ID']">
+        <div ng-repeat="bid in model.bids | orderBy: '-Bid_ID':false:model.bidNumberComparator">
             <div class="list-group-item">
                 <div class="row bid-row">
                     <div class="col">{{bid.Bid_ID}}</div>
