@@ -18,6 +18,7 @@ app.use(passport.session());
 
 require("./app.js");
 var release = process.argv[2]
-var port = release == 'prod' ? 3000 : 8005;
+//var port = release == 'prod' ? 3000 : 8005;
+var port = 5000;
 console.log(port)
 app.listen(port);

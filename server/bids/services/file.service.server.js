@@ -1,4 +1,6 @@
+//include express
 var app = require('../../../express');
+//include the server.js file
 var filesModel = require('../model/files.model.server');
 
 app.post('/api/bid/file', uploadFile);

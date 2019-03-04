@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 // var connectionString = 'mongodb://localhost/dev';
 // release is either 'prod' or 'dev', based on the argument passed to npm during project init
 var release = process.argv[2]
-var connectionString = "mongodb://localhost/rubix-" + process.env.RUBIXLOCATION + "-" + release 
+var connectionString = "mongodb://localhost/rubix-local-prod"// + process.env.RUBIXLOCATION + "-" + release
 console.log(connectionString)
 console.log(process.argv)
 if (process.env.MLAB_USERNAME_WEBDEV) {

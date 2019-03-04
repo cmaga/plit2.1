@@ -1,12 +1,17 @@
-var app = require('../../../express');
-var bidModel = require('../model/bid.model.server');
-var counterModel = require('../model/counter.model.server');
+//files you're including
+var app = require('../../../express'); // include express
+var bidModel = require('../model/bid.model.server'); //include bid model
+var counterModel = require('../model/counter.model.server'); // include counter model
+
+//ties an express path/route with a certain function. Those functions are defined below. The colon means it gets replaced with its associated value. 
 app.post('/api/add-bid', createBid);
 app.get('/api/bids', getBids);
 app.get('/api/bid/:bidId', getSpecificBid);
 app.put('/api/update-bid/:bidId', updateBid);
 app.delete('/api/remove-bid/:bidId', removeBid);
-app.put('/api/save-fields/:bidId', saveFields)
+app.put('/api/save-fields/:bidId', saveFields);
+
+
 function createBid(req, res) {
     var bid = req.body;
     var b_id = bid.Bid_Type;
@@ -38,19 +43,7 @@ function createBid(req, res) {
         });
 }
 
-function saveFields(req,res){
-    var bid = req.body;
-    console.log(req.params.bidId);
-    bidModel
-        .updateBid(bid, req.params.bidId)
-        .then(function (bid) {
-            console.log(bid);
-            res.send(bid);
-        }, function (err) {
-            console.log(err);
-            res.send(err);
-        });
-}
+
 
 
 function updateBid(req, res) {
@@ -92,6 +85,20 @@ function removeBid(req, res) {
         .then(function (bid) {
             res.send(bid);
         }, function (err) {
+            res.send(err);
+        });
+}
+
+function saveFields(req,res){
+    var bid = req.body;
+    console.log(req.params.bidId);
+    bidModel
+        .updateBid(bid, req.params.bidId)
+        .then(function (bid) {
+            console.log(bid);
+            res.send(bid);
+        }, function (err) {
+            console.log(err);
             res.send(err);
         });
 }
