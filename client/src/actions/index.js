@@ -7,13 +7,12 @@ export const trySignOut = () => {
         type: 'SIGN_OUT'
     };
 };
-/*
+
 //needs to call api to get log in info and if there is a match you sign in
 //then call auth to change state
-export const trySignIn = (user) => async dispatch => {
+export const trySignIn = (credentials) => async dispatch => {
 
-    const response = await plitApi.post('/api/login', user);
-    console.log((`/api/user/username/${userName}/password/${password}`));
+    const response = await plitApi.post('/api/login', credentials);
 
     dispatch ({
         type: SIGN_IN,
@@ -21,6 +20,8 @@ export const trySignIn = (user) => async dispatch => {
     });
 };
 
+
+/*
 export const trySignIn = (userName, password) => async dispatch => {
     await dispatch(fetchUser(userName, password));
 

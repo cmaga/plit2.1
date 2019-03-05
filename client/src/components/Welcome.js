@@ -1,26 +1,51 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import plitApi from '../api/plitApi';
 
+import plitApi from '../api/plitApi';
 import { trySignIn, trySignOut} from "../actions";
 
 //TODO currently we are logging in but we need to check if we are logged in with a another api call.
 
 class Welcome extends React.Component {
-    state = { user: {}};
 
 
-    gc = async (username, password) => {
+//TODO refactor with try catch if it doesnt work
+    /*
+    checkLoggedIn= async () => {
+        console.log('is the user logged in?');
+
+        return await plitApi.get('/api/checkLoggedIn');
+    };
+
+    login = async (username, password) => {
         const cred = {
             username: username,
             password: password
         };
+            const response = await plitApi.post('/api/login',cred);
+            console.log(response);
+            /*
+        try {
+            const response = await plitApi.post('/api/login', cred);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
 
-        return await plitApi.post('/api/login', cred);
     };
+    */
+getCred = () => {
+    const credentials = {
+        username: 'MAnager',
+        password: 'admin'
+    };
+    return credentials;
+};
 
     componentDidMount() {
-        console.log(this.gc('MAnager', 'admin'));
+        const cred = this.getCred();
+        this.props.trySignIn(cred);
+        //this.checkLoggedIn();
     }
 
 
@@ -32,9 +57,10 @@ class Welcome extends React.Component {
         );
     }
 }
-/*
+
 const mapStateToProps= state => {
-  return {isSignedIn: state.auth.isSignedIn, user: state.auth.user };
+  return {isSignedIn: state.isSignedIn, user: state.user };
 };
-*/
-export default Welcome; //connect(null, {trySignOut, trySignIn})(Welcome);
+
+
+export default connect(mapStateToProps, {trySignOut, trySignIn})(Welcome);
