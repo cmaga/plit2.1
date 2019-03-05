@@ -29,11 +29,11 @@ function findAllUsers(){
 
 function findUserByUsername(username) {
     console.log('username: '+username);
-    return userModel.findOne({username: username});
+    return userModel.findOne({"username": username});
 }
 
 function findUserByCredentials(username, password) {
-    return userModel.findOne({username: username, password: password});
+    return userModel.findOne({"username": username, "password": password});
 }
 
 function updateUser(userId, newUser){
