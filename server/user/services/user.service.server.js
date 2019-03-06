@@ -64,6 +64,7 @@ function login(req, res) {
 function logout(req, res) {
     req.logout();
     res.sendStatus(200);
+    console.log('user logging out');
 }
 function register(req, res) {
     var user = req.body;
