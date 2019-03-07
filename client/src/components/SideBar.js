@@ -9,13 +9,13 @@ export default class Bar extends Component {
 
     handleHideClick = () => this.setState({ visible: false })
     handleShowClick = () => this.setState({ visible: true })
-    handleSidebarHide = () => this.setState({ visible: false })
+    handleSidebarHide = () => this.setState({ visible: true })
 
     render() {
         const { visible } = this.state;
 
         return (
-            <div>
+            <div style={{minHeight: '100vh'}}>
                 <Button.Group>
                     <Button disabled={visible} onClick={this.handleShowClick}>
                         Show sidebar
@@ -48,14 +48,40 @@ export default class Bar extends Component {
                             <Icon name='camera' />
                             Channels
                         </Menu.Item>
+
+                        <Menu.Item as='a'>
+                            <Icon name='home' />
+                            Home
+                        </Menu.Item>
+                        <Menu.Item as='a'>
+                            <Icon name='gamepad' />
+                            Games
+                        </Menu.Item>
+                        <Menu.Item as='a'>
+                            <Icon name='camera' />
+                            Channels
+                        </Menu.Item>
+
+                         <Menu.Item as='a'>
+                            <Icon name='home' />
+                            Home
+                        </Menu.Item>
+                        <Menu.Item as='a'>
+                            <Icon name='gamepad' />
+                            Games
+                        </Menu.Item>
+                        <Menu.Item as='a'>
+                            <Icon name='camera' />
+                            Channels
+                        </Menu.Item>
                     </Sidebar>
 
                     <Sidebar.Pusher>
-                        <Segment basic>
+
                             <Header as='h3'>Application Content</Header>
                             <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
                             <Home />
-                        </Segment>
+
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
             </div>
