@@ -4,7 +4,7 @@ import LoginButton from "./LoginButton";
 
 const Header = () => {
     return (
-        <div className="ui secondary pointing menu">
+        <div className="ui secondary pointing menu container">
             <Link to="/" className="item">
                 PLIT
             </Link>

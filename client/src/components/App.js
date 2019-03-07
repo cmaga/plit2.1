@@ -3,17 +3,18 @@ import {HashRouter, Route} from 'react-router-dom';
 
 import Home from './Home';
 import Welcome from './Welcome';
-import Header from './Header'; //TODO
+import Header from './Header';
+import Bar from "./SideBar";
 
 
 
 const App = () => {
     return (
-        <div className="ui container">
+        <div>
             <HashRouter>
                 <div>
                     <Header />
-                    <Route path = "/" exact component={Home} />
+                    <Route path = "/" exact component={Bar} />
                     <Route path = "/login" exact component={Welcome} />
                 </div>
             </HashRouter>

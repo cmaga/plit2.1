@@ -101,7 +101,7 @@ getCred = () => {
     render() {
 
         return(
-            <div>
+            <div className = "ui container">
                 <h1>Welcome</h1>
                 <h2>signed in:</h2>
                 <h3>{this.checkLoggedIn()}</h3>
