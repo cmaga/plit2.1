@@ -7,9 +7,16 @@ import Home from './Home';
 export default class Bar extends Component {
     state = { visible: true };
 
-    handleHideClick = () => this.setState({ visible: false })
-    handleShowClick = () => this.setState({ visible: true })
-    handleSidebarHide = () => this.setState({ visible: true })
+    handleHideClick = () => this.setState({ visible: false });
+    handleShowClick = () => this.setState({ visible: true });
+    handleSidebarHide = () => this.setState({ visible: true });
+
+    renderSidebarContent = () => {
+        //check stored state to see what view we are supposed to be showing intra or bid
+
+        //render the menu elements based on if we should show intra or bid content
+
+    };
 
     render() {
         const { visible } = this.state;
