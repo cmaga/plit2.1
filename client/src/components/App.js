@@ -5,7 +5,7 @@ import Home from './Home';
 import Welcome from './Welcome';
 import Header from './Header';
 import Bar from "./SideBar";
-
+import PrivateRoute from './authentication/PrivateRoute';
 
 
 const App = () => {
@@ -14,7 +14,7 @@ const App = () => {
             <HashRouter>
                 <div>
                     <Header />
-                    <Route path = "/" exact component={Bar} />
+                    <PrivateRoute path="/" component={Bar} />
                     <Route path = "/login" exact component={Welcome} />
                 </div>
             </HashRouter>
