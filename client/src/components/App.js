@@ -6,6 +6,7 @@ import Welcome from './Welcome';
 import Header from './Header';
 import Bar from "./SideBar";
 import PrivateRoute from './authentication/PrivateRoute';
+import Bids from './bids/Bids';
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
                     <Header />
                     <PrivateRoute path="/" component={Bar} />
                     <Route path = "/login" exact component={Welcome} />
+                    <PrivateRoute path="/bids" component={Bids} />
                 </div>
             </HashRouter>
         </div>

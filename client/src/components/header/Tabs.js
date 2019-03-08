@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import {tab} from '../../actions/index';
 //import { Tab } from 'semantic-ui-react';
 
 /*
@@ -10,25 +13,41 @@ const panes = [
 */
 
 class TabForHeader extends React.Component {
+//tab name passed down as props
+
+
+    selectTab = () => {
+        //if the the tab stored is equal to the tabName then add active to the string in className
+        if (this.props.tabState === this.props.tabName) {
+            return 'active item';
+        } else {
+            return 'item';
+        }
+    };
 
     renderTab = () => {
       return(
-        <div className="active item">{this.props.tabName}</div>
+        <div className={this.selectTab()}>{this.props.tabName}</div>
       );
     };
 
     handleClick = () => {
       //call action creator to update the redux store to the name of what was clicked on
+        this.props.tab(this.props.tabName);
     };
 
     render() {
         return (
-            <div onClick=>
+            <div onClick={this.handleClick}>
                 {this.renderTab()}
             </div>
         );
     }
 }
 
-export default TabForHeader;
+const mapStateToProps = state => {
+  return {tabState: state.tab.tab};
+};
+
+export default connect(mapStateToProps, {tab})(TabForHeader);
 

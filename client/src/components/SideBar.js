@@ -1,21 +1,63 @@
 
 import React, { Component } from 'react'
-import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react';
+import {connect} from 'react-redux';
 
 import Home from './Home';
 
-export default class Bar extends Component {
+class Bar extends Component {
     state = { visible: true };
 
     handleHideClick = () => this.setState({ visible: false });
     handleShowClick = () => this.setState({ visible: true });
     handleSidebarHide = () => this.setState({ visible: true });
 
-    renderSidebarContent = () => {
-        //check stored state to see what view we are supposed to be showing intra or bid
 
-        //render the menu elements based on if we should show intra or bid content
 
+
+
+    viewLogic = () => {
+        if (this.props.tabState === 'tools') {
+            console.log('TOOLS');
+            return this.toolsView();
+        } else if (this.props.tabState === 'intranet') {
+            console.log('intra');
+            return this.intranetView();
+        } else {
+            return null;
+        }
+    };
+
+    toolsView = () => {
+        return(
+                <div>
+                   <Menu.Item as='a'>
+                            <Icon name='home' />
+                            Home
+                        </Menu.Item>
+                        <Menu.Item as='a'>
+                            <Icon name='gamepad' />
+                            Bids
+                        </Menu.Item>
+                        <Menu.Item as='a'>
+                            <Icon name='camera' />
+                            Channels
+                        </Menu.Item>
+                </div>
+
+        );
+    };
+
+    intranetView = () => {
+      return(
+          <div>
+              <Menu.Item as='a'>
+                  <Icon name='home' />
+                  Nothing here yet stay tuned
+              </Menu.Item>
+
+          </div>
+                    );
     };
 
     render() {
@@ -43,44 +85,10 @@ export default class Bar extends Component {
                         visible={visible}
                         width='wide'
                     >
-                        <Menu.Item as='a'>
-                            <Icon name='home' />
-                            Home
-                        </Menu.Item>
-                        <Menu.Item as='a'>
-                            <Icon name='gamepad' />
-                            Games
-                        </Menu.Item>
-                        <Menu.Item as='a'>
-                            <Icon name='camera' />
-                            Channels
-                        </Menu.Item>
+                        <div>
+                            {this.viewLogic()}
+                        </div>
 
-                        <Menu.Item as='a'>
-                            <Icon name='home' />
-                            Home
-                        </Menu.Item>
-                        <Menu.Item as='a'>
-                            <Icon name='gamepad' />
-                            Games
-                        </Menu.Item>
-                        <Menu.Item as='a'>
-                            <Icon name='camera' />
-                            Channels
-                        </Menu.Item>
-
-                         <Menu.Item as='a'>
-                            <Icon name='home' />
-                            Home
-                        </Menu.Item>
-                        <Menu.Item as='a'>
-                            <Icon name='gamepad' />
-                            Games
-                        </Menu.Item>
-                        <Menu.Item as='a'>
-                            <Icon name='camera' />
-                            Channels
-                        </Menu.Item>
                     </Sidebar>
 
                     <Sidebar.Pusher>
@@ -96,4 +104,10 @@ export default class Bar extends Component {
     }
 }
 
-//export default Bar;
+const mapStateToProps = state => {
+  return {tabState: state.tab.tab};
+};
+
+
+export default connect(mapStateToProps)(Bar);
+

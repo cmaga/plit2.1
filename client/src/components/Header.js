@@ -10,7 +10,11 @@ const Header = () => {
             <Link to="/" className="item">
                 PLIT
             </Link>
-            <TabForHeader tabName="bids" />
+
+            <TabForHeader tabName="tools" />
+
+            <TabForHeader tabName="intranet" />
+
             <Link to="/login" className = "right menu">
                 <LoginButton/>
             </Link>

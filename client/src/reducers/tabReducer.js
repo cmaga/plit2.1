@@ -1,7 +1,14 @@
-import {BIDS, INTRA} from "../actions/types";
+import {TAB} from "../actions/types";
 
-export default = action => {
+const INITIAL_STATE = {
+  tab: 'tools'
+};
+
+export default(state=INITIAL_STATE, action) => {
     switch(action.type) {
-
+        case TAB:
+            return {...state, tab: action.payload};
+        default:
+            return state;
     }
 }
