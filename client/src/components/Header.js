@@ -3,11 +3,11 @@ import {Link} from 'react-router-dom';
 import LoginButton from "./LoginButton";
 import TabForHeader from './header/Tabs';
 
-const Header = () => {
+const MyHeader = () => {
     //if user clicks on bids or intranet update the state of the redux store
     return (
         <div className="ui secondary pointing menu container">
-            <Link to="/" className="item">
+            <Link to="/home" className="item">
                 PLIT
             </Link>
 
@@ -23,4 +23,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default MyHeader;
