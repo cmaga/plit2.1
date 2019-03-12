@@ -4,6 +4,7 @@ import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui
 import {connect} from 'react-redux';
 
 import Home from './Home';
+import Bids from './bids/Bids';
 
 class Bar extends Component {
     state = { visible: true };
@@ -93,9 +94,9 @@ class Bar extends Component {
 
                     <Sidebar.Pusher>
 
-                            <Header as='h3'>Application Content</Header>
-                            <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
-                            <Home />
+
+                            <Bids />
+
 
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>

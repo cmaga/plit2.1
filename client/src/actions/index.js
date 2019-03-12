@@ -1,4 +1,4 @@
-import {SIGN_IN, SIGN_OUT, FETCH_USER, TAB} from "./types";
+import {SIGN_IN, SIGN_OUT, FETCH_USER, TAB, BIDS} from "./types";
 import plitApi from '../api/plitApi';
 
 //just need to call auth to change state
@@ -42,22 +42,12 @@ export const tab = (tabName) => {
   )
 };
 
+export const bidList = () => async dispatch => {
+    const response = await plitApi.get("/api/bids");
 
-/*
-export const trySignIn = (userName, password) => async dispatch => {
-    await dispatch(fetchUser(userName, password));
-
-
-    dispatch({
-        type: SIGN_IN,
-        payload: response.data._id
+    dispatch ({
+       type: BIDS,
+       payload: response.data
     });
 };
 
-
-export const changeAuth = () => {
-    return {
-        type: 'AUTH'
-    };
-};
-*/

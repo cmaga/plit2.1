@@ -18,6 +18,7 @@ const App = () => {
                     <PrivateRoute path="/" component={Bar} />
                     <Route path = "/login" exact component={Welcome} />
                     <PrivateRoute path="/bids" component={Bids} />
+
                 </div>
             </HashRouter>
         </div>
