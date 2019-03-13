@@ -25,7 +25,7 @@ componentDidMount() {
         const renderRoute = props => {
             if(rest.isSignedIn || rest.isSignedIn === null) {
                 return (
-                    <Component/>
+                    <Component {...props}/>
                 );
             }
 

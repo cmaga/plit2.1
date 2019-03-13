@@ -15,9 +15,8 @@ const App = () => {
             <HashRouter>
                 <div>
                     <Header />
-                    <PrivateRoute path="/" component={Bar} />
+                    <PrivateRoute path="/" component={Home} />
                     <Route path = "/login" exact component={Welcome} />
-                    <PrivateRoute path="/bids" component={Bids} />
                 </div>
             </HashRouter>
         </div>
