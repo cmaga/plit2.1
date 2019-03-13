@@ -10,7 +10,6 @@ import { connect } from 'react-redux'
 import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react';
 
 import {checkLoginStatus} from "../../actions";
-import Home from "../SideBar";
 
 
 class PrivateRoute extends React.Component {

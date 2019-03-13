@@ -40,7 +40,7 @@ class Options extends React.Component {
             <Button.Group color='teal'>
             <Dropdown options={this.options()} floating button className='icon' value={this.state.value} onChange={this.handleChange} />
             </Button.Group>
-            <h1>{this.whatyeah()}</h1>
+            <h1>work in progress</h1>
         </div>
     );
   }
