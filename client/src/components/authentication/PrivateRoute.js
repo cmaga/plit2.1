@@ -1,8 +1,9 @@
-// This is used to determine if a user is authenticated and
-// if they are allowed to visit the page they navigated to.
+/* This component is responsible for recirecting users to the log in page if they are not signed in
+it also contains the logic for the sidebar since in semantic-ui-react the content has to be placed within
+special syntax. Creating a component would force you to pass components as content into the sidebar component.
+That is also the way in which private routing is done therefore they were combined.
+*/
 
-// If they are: they proceed to the page
-// If not: they are redirected to the login page.
 import React, {useEffect} from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -19,8 +20,8 @@ componentDidMount() {
     this.props.checkLoginStatus();
 }
 
-//methods for the sidebar
-    state = { visible: true };
+//methods and state for the sidebar
+    state = { visible: true }; 
 
     handleHideClick = () => this.setState({ visible: false });
     handleShowClick = () => this.setState({ visible: true });
@@ -139,7 +140,7 @@ componentDidMount() {
 }
 
 const mapStateToProps = (state) => {
-    return {isSignedIn: state.auth.isSignedIn}
+    return {isSignedIn: state.auth.isSignedIn, tabState: state.tab.tab}
 };
 
 export default connect(mapStateToProps, {checkLoginStatus})(PrivateRoute);
