@@ -97,13 +97,13 @@ componentDidMount() {
                         <Sidebar.Pushable>
                             <Sidebar
                                 as={Menu}
-                                animation='push'
+                                animation='overlay'
                                 icon='labeled'
                                 inverted
                                 onHide={this.handleSidebarHide}
                                 vertical
                                 visible={this.state.visible}
-                                width='wide'
+                                width='thin'
                             >
                                 <div>
                                     {this.viewLogic()}

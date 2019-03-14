@@ -1,5 +1,15 @@
-import {SIGN_IN, SIGN_OUT, FETCH_USER, TAB, BIDS} from "./types";
 import plitApi from '../api/plitApi';
+import {SIGN_IN,
+    SIGN_OUT,
+    FETCH_USER,
+    TAB,
+    BIDS,
+    BID,
+    CREATE_BID,
+    DELETE_BID,
+    EDIT_BID
+} from "./types";
+
 
 //just need to call auth to change state
 export const trySignOut = () => async dispatch => {
@@ -48,6 +58,44 @@ export const bidList = () => async dispatch => {
     dispatch ({
        type: BIDS,
        payload: response.data
+    });
+};
+
+export const bid = (bidId) => async dispatch => {
+    const response = await plitApi.get(`/api/bid/${bidId}`);
+
+    dispatch ({
+        type: BID,
+        payload: response.data
+    });
+};
+
+export const bidCreate = (formValues) => async dispatch => {
+  const response = plitApi.post("/api/add-bid", formValues);
+
+    dispatch ({
+        type: CREATE_BID,
+        payload: response.data
+    })
+};
+
+export const bidDelete = (bidId) => async dispatch => {
+    const response = plitApi.delete(`/api/remove-bid/${bidId}`);
+
+    dispatch ({
+        type: DELETE_BID,
+        payload: bidId
+    });
+};
+
+//TODO may need to be restructured right now its just copying old plit
+export const editBid = (formValues, bidId) => async dispatch => {
+  const response = plitApi.put(`api/update-bid/${bidId}`, formValues);
+
+  //TODO make the dispatch
+    dispatch({
+        type: EDIT_BID,
+        payload: response.data
     });
 };
 

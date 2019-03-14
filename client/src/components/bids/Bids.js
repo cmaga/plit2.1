@@ -25,7 +25,7 @@ class Bids extends React.Component {
         if (this.props.bids) {
 
             return (
-                <div>
+                <div className="ui container">
                 <table className="ui single line table">
                     <thead>
                     <tr>
