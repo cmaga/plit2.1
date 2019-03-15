@@ -17,47 +17,60 @@ class Bids extends React.Component {
       return new Date(string).toLocaleDateString([], options);
     };
 
+    renderAdmin(bid) {
+
+    }
+
+
+    renderList() {
+
+        return (
+        <div className="ui container">
+            <table className="ui single line table">
+                <thead>
+                <tr>
+                    <th> ID</th>
+                    <th> Title</th>
+                    <th> Requested Date</th>
+                </tr>
+                </thead>
+                <tbody>{this.props.bids.map((bid) => {
+                    return (
+                        <tr key={bid._id}>
+                            <td>{bid.Bid_ID}</td>
+                            <td>{bid.Proj_Name}</td>
+                            <td>{this.formatDate(bid.Requested_Dttm)}</td>
+                            <td><Options/></td>
+
+
+                        </tr>
+                    );
+                })}
+                </tbody>
+            </table>
+        </div>
+        );
+    }
+
+    renderCreate() {
+    }
 
 
 
     render() {
-
-        if (this.props.bids) {
-
-            return (
-                <div className="ui container">
-                <table className="ui single line table">
-                    <thead>
-                    <tr>
-                        <th> ID</th>
-                        <th> Title</th>
-                        <th> Requested Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>{this.props.bids.map((bid) => {
-                        return (
-                            <tr key={bid._id}>
-                                <td>{bid.Bid_ID}</td>
-                                <td>{bid.Proj_Name}</td>
-                                <td>{this.formatDate(bid.Requested_Dttm)}</td>
-                                <td><Options/></td>
-
-
-                            </tr>
-                        );
-                    })}
-                    </tbody>
-                </table>
-                </div>
-
-            );
-        } else {
-            return <div>Loading....</div>;
-        }
+       return (
+           <div>
+               {this.renderList()}
+           </div>
+       );
     }
 }
 
 const mapStateToProps = state => {
-  return {bids: state.bids.bids};
+  return {
+      bids: Object.values(state.bids),
+      isSignedIn: state.auth.isSignedIn,
+      user: state.auth.user
+  };
 };
 export default connect(mapStateToProps, {bidList})(Bids);
