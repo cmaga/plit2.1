@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bidList}from '../../actions';
 import Options from './Options';
 
-
+//TODO change bk name
 class Bids extends React.Component {
 
     componentDidMount() {
@@ -40,7 +40,7 @@ class Bids extends React.Component {
                             <td>{bid.Bid_ID}</td>
                             <td>{bid.Proj_Name}</td>
                             <td>{this.formatDate(bid.Requested_Dttm)}</td>
-                            <td><Options/></td>
+                            <td><Options bk={bid._id} /></td>
 
 
                         </tr>

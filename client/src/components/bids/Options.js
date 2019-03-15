@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Dropdown, Button} from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 class Options extends React.Component {
     state = {value: ''};
@@ -9,7 +9,15 @@ class Options extends React.Component {
     //check if user is admin
   }
 
-  checkAdmin = () => {
+  componentDidUpdate() {
+      //when the state updates redirect based on that state to the correct page
+      if (this.state.value === 'edit') {
+          return <Redirect to='/' />
+          console.log(this.state.value);
+      }
+  }
+
+    checkAdmin = () => {
     if (this.props.role==="Admin") {
 
     }
@@ -20,18 +28,26 @@ class Options extends React.Component {
   options = () => {
       return(
       [
-      { key: 'edit', icon: 'edit', text: 'Edit Post', value: 'edit' },
-      { key: 'delete', icon: 'delete', text: 'Remove Post', value: 'delete' },
+      { key: 'edit', icon: 'edit', text: 'Edit Bid', value: 'edit' },
+      { key: 'delete', icon: 'delete', text: 'Remove Bid', value: 'delete' },
+          { key: 'create', icon: 'new', text: 'Add Bid', value: 'add' },
           ]
   );
     };
 
-  dropdownLogic = () => {
-    if (this.state.value==='edit') {
-        console.log('we know we are should be editing');
-    } else if (this.state.value === 'delete') {
-        console.log('we should be deleting')
-    }
+  dropdownLogic = (id) => {
+      if (this.state.value === 'edit') {
+            const path = `/bid/edit/${id}`;
+          return <Redirect to={path} />
+      }
+      if(this.state.value === 'add') {
+          const path = `/bid/add/${id}`;
+          return <Redirect to={path} />
+      }
+      if (this.state.value === 'delete') {
+          const path = `/bid/delete/${id}`;
+          return <Redirect to = {path}/>
+      }
   };
 
   render() {
@@ -39,6 +55,7 @@ class Options extends React.Component {
         <div>
             <Button.Group color='teal'>
             <Dropdown options={this.options()} floating button className='icon' value={this.state.value} onChange={this.handleChange} />
+                {this.dropdownLogic(this.props.bk)}
             </Button.Group>
         </div>
     );

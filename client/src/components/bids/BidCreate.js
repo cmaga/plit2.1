@@ -1,12 +1,15 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
+import {connect} from 'react-redux';
+
+import {bidCreate} from '../../actions/index'
 
 class BidCreate extends React.Component {
-
 //this takes the formProps input property (has value, onChange etc) and add them as props to the input element.
     //if we dont do this we have to do something like:
     //onChange={formProps.input.onChange} for every form property we want to use from redux form.
     //this is an even shorter version of {...formProps.input} by destructuring input out of formProps.
+
     renderError({error, touched}) {
         if(touched && error) {
             return(
@@ -34,11 +37,13 @@ class BidCreate extends React.Component {
     onSubmit = (formValues) => {
         console.log(formValues);
         //call the action creator to create bid
+        this.props.bidCreate(formValues);
     };
 
     render() {
         return(
-          <form onSubmit{this.props.handleSubmit(this.onSubmit)} className="ui form error">
+            <div className="ui container">
+          <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
               <Field name="Buyer" component={this.renderInput} label="Buyer Name"/>
               <Field name = "Proj_Name" component={this.renderInput} label="Project Name"/>
                 <Field name = "Req_ID" component={this.renderInput} label="Requisition Number"/>
@@ -47,6 +52,8 @@ class BidCreate extends React.Component {
                 <Field name = "bidOpeningDate" component={this.renderInput} label="Bid opening Date"/>
                 <button className = "ui button primary">Submit</button>
           </form>
+            </div>
+
         );
     }
 }
@@ -80,7 +87,9 @@ const validate = (formValues) => {
     return errors;
 };
 
-export default Form({
+ const formWrapped = reduxForm({
 form: 'bidCreate',
     validate
 })(BidCreate);
+
+ export default connect(null, {bidCreate})(formWrapped);

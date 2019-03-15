@@ -76,7 +76,7 @@ export const bidCreate = (formValues) => async dispatch => {
     dispatch ({
         type: CREATE_BID,
         payload: response.data
-    })
+    });
 };
 
 export const bidDelete = (bidId) => async dispatch => {

@@ -14,7 +14,7 @@ export default(state={}, action) => {
         case BIDS:
             return {...state, ..._.mapKeys(action.payload, '_id')};
         case CREATE_BID:
-            return {...state, [action.payload.id]: action.payload};
+            return {...state, [action.payload._id]: action.payload};
         case DELETE_BID:
             return _.omit(state, action.payload);
         case BID:

@@ -5,7 +5,7 @@ That is also the way in which private routing is done therefore they were combin
 */
 
 import React, {useEffect} from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react';
 
@@ -45,12 +45,12 @@ componentDidMount() {
     toolsView = () => {
         return(
             <div>
-                <Menu.Item as='a'>
+                <Menu.Item as={Link} to='/'>
                     <Icon name='home' />
                     Home
                 </Menu.Item>
-                <Menu.Item as='a'>
-                    <Icon name='gamepad' />
+                <Menu.Item as={Link} to='/bids'>
+                    <Icon name='list layout'/>
                     Bids
                 </Menu.Item>
                 <Menu.Item as='a'>
@@ -66,7 +66,7 @@ componentDidMount() {
         return(
             <div>
                 <Menu.Item as='a'>
-                    <Icon name='home' />
+                    <Icon name='react' />
                     Nothing here yet stay tuned
                 </Menu.Item>
 
@@ -94,7 +94,7 @@ componentDidMount() {
                             </Button>
                         </Button.Group>
 
-                        <Sidebar.Pushable>
+                        <Sidebar.Pushable style={{minHeight: '100vh'}}>
                             <Sidebar
                                 as={Menu}
                                 animation='overlay'
@@ -103,7 +103,7 @@ componentDidMount() {
                                 onHide={this.handleSidebarHide}
                                 vertical
                                 visible={this.state.visible}
-                                width='thin'
+                                width='wide'
                             >
                                 <div>
                                     {this.viewLogic()}
