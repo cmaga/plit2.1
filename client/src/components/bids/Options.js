@@ -30,6 +30,7 @@ class Options extends React.Component {
   options = () => {
       return(
       [
+          {key: 'filler', icon: 'sort down', text:'Select an option:', value: ''},
       { key: 'edit', icon: 'edit', text: 'Edit Bid', value: 'edit' },
       { key: 'delete', icon: 'delete', text: 'Remove Bid', value: 'delete' },
           ]
