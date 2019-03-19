@@ -81,7 +81,7 @@ componentDidMount() {
         const {component: Component, ...rest} = this.props;
 
         const renderRoute = props => {
-            if(rest.isSignedIn || rest.isSignedIn === null) {
+            if(rest.isSignedIn) {
                 return (
 
                     <div style={{minHeight: '100vh'}}>
@@ -97,7 +97,7 @@ componentDidMount() {
                         <Sidebar.Pushable style={{minHeight: '100vh'}}>
                             <Sidebar
                                 as={Menu}
-                                animation='push'
+                                animation='overlay'
                                 icon='labeled'
                                 inverted
                                 onHide={this.handleSidebarHide}
@@ -120,15 +120,18 @@ componentDidMount() {
                         </Sidebar.Pushable>
                     </div>
                 );
-            }
+            } else if(rest.isSignedIn === null) {
+                return <div>No user is signed in </div>;
+            } else {
 
-            const to = {
-                pathname: '/login',
-                state: {from: props.location} //given by react-router (also gives param)
-            };
-            return (
-                <Redirect to = {to} />
-            );
+                const to = {
+                    pathname: '/login',
+                    state: {from: props.location} //given by react-router (also gives param)
+                };
+                return (
+                    <Redirect to={to}/>
+                );
+            }
 
         };
 

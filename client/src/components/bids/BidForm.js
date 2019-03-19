@@ -1,10 +1,28 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+//import {Field, reduxForm} from 'redux-form';
+import {Form, Field} from 'react-final-form';
 
-class StreamForm extends React.Component {
-    renderError({ error, touched }) {
-        if (touched && error) {
-            return (
+
+class BidForm extends React.Component {
+//this takes the formProps input property (has value, onChange etc) and add them as props to the input element.
+    //if we dont do this we have to do something like:
+    //onChange={formProps.input.onChange} for every form property we want to use from redux form.
+    //this is an even shorter version of {...formProps.input} by destructuring input out of formProps.
+
+    normalizeString = (string) => {
+        //formate of date must be "11/23/2019 5:32 PM"
+        const d = new Date(string);
+        console.log(d);
+        const ned = d.toJSON();
+        console.log(ned);
+        const stringDate = `${ned}`;
+        console.log(stringDate);
+        return stringDate;
+    };
+
+    renderError({error, touched}) {
+        if(touched && error) {
+            return(
                 <div className="ui error message">
                     <div className="header">{error}</div>
                 </div>
@@ -12,54 +30,83 @@ class StreamForm extends React.Component {
         }
     }
 
+
     renderInput = ({ input, label, meta }) => {
         const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
         return (
-            <div className={className}>
+            <div className = {className}>
                 <label>{label}</label>
-                <input {...input} autoComplete="off" />
+                <input {...input}/>
+
                 {this.renderError(meta)}
             </div>
+
         );
     };
 
-    onSubmit = formValues => {
+    onSubmit = (formValues) => {
         this.props.onSubmit(formValues);
     };
 
     render() {
-        return (
-            <form
-                onSubmit={this.props.handleSubmit(this.onSubmit)}
-                className="ui form error"
-            >
-                <Field name="title" component={this.renderInput} label="Enter Title" />
-                <Field
-                    name="description"
-                    component={this.renderInput}
-                    label="Enter Description"
-                />
-                <button className="ui button primary">Submit</button>
-            </form>
+        return(
+            <Form
+                onSubmit={this.onSubmit}
+                initialValues={this.props.initialValues}
+                render = { ({handleSubmit}) => (
+                    <div className="ui container">
+                        <form onSubmit={handleSubmit} className="ui form error">
+                            <Field name="Buyer" component={this.renderInput} label="Buyer Name"/>
+                            <Field name = "Proj_Name" component={this.renderInput} label="Project Name"/>
+                            <Field name = "Req_ID" component={this.renderInput} label="Requisition Number" />
+                            <Field name = "Fund_Code" component={this.renderInput} label="funding Source Code"/>
+                            <Field name = "Bid_Type" component={this.renderInput} label="Bid Type"/>
+                            <Field name = "Requested_Dttm" component={this.renderInput} label="Bid opening Date ( Please enter in the following format MM/DD/YYYY HH:MM PM/AM)"/>
+                            <button className = "ui button primary">Submit</button>
+                        </form>
+                    </div>
+                )} />
+
+
         );
     }
 }
 
-const validate = formValues => {
+const validate = (formValues) => {
     const errors = {};
-
-    if (!formValues.title) {
-        errors.title = 'You must enter a title';
+    if (!formValues.Buyer) {
+        errors.Buyer = 'You must enter a buyer';
     }
 
-    if (!formValues.description) {
-        errors.description = 'You must enter a description';
+    if (!formValues.Proj_Name) {
+        errors.Proj_Name = 'You must enter a project name'
+    }
+
+    if (!formValues.Req_ID) {
+        errors.Req_ID = 'You must enter a requistion ID';
+    }
+
+    if (!formValues.Fund_Code) {
+        errors.Fund_Code = 'You must enter the funding source code';
+    }
+
+    if (!formValues.Bid_Type) {
+        errors.Bid_Type = 'You must enter the Bid type'
+    }
+
+    if (!formValues.bidOpeningDate) {
+        errors.bidOpeningDate = 'You must enter the bid opening date';
     }
 
     return errors;
 };
 
-export default reduxForm({
-    form: 'streamForm',
+/*
+ const formWrapped = reduxForm({
+form: 'bidCreate',
     validate
-})(StreamForm);
+})(BidCreate);
+
+ export default connect(null, {bidCreate})(formWrapped);
+ */
+export default BidForm;

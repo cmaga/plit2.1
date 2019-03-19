@@ -41,7 +41,7 @@ class Bids extends React.Component {
                             <td>{bid.Bid_ID}</td>
                             <td>{bid.Proj_Name}</td>
                             <td>{this.formatDate(bid.Requested_Dttm)}</td>
-                            <td><Options bk={bid._id} /></td>
+                            <td><Options bidId={bid._id} /></td>
 
 
                         </tr>

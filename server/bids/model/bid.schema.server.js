@@ -6,7 +6,6 @@ var bidSchema = mongoose.Schema({
         "Req_ID": String,
         "Fund_Code": String,
         "Bid_Type": String,
-        "Bid_Open": String,
             "Timeframe": Date,
         "Comments": String,
         "Requested_Dttm": Date,
