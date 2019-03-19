@@ -30,7 +30,7 @@ class Options extends React.Component {
       [
       { key: 'edit', icon: 'edit', text: 'Edit Bid', value: 'edit' },
       { key: 'delete', icon: 'delete', text: 'Remove Bid', value: 'delete' },
-          { key: 'create', icon: 'new', text: 'Add Bid', value: 'add' },
+          { key: 'create', icon: 'delete', text: 'Add Bid', value: 'add' },
           ]
   );
     };

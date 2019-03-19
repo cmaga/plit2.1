@@ -10,7 +10,7 @@ bidModel.removeBid = removeBid;
 module.exports = bidModel;
 
 function createBid(bid) {
-    bid.Timeframe = Date.parse(bid.Timeframe);
+    //bid.Timeframe = Date.parse(bid.Timeframe);
     console.log("server" + JSON.stringify(bid));
 
     return bidModel.create(bid);

@@ -71,7 +71,7 @@ export const bid = (bidId) => async dispatch => {
 };
 
 export const bidCreate = (formValues) => async dispatch => {
-  const response = plitApi.post("/api/add-bid", formValues);
+  const response = await plitApi.post("/api/add-bid", formValues);
 
     dispatch ({
         type: CREATE_BID,

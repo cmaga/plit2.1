@@ -18,10 +18,10 @@ function createBid(req, res) {
     var fund = bid.Fund_Code.slice(-1);
     var bidNum = "";
     var d = new Date;
-    console.log('creating bid')
+    console.log('creating bid');
     counterModel.getCount()
         .then(function (response) {
-            console.log(response)
+            console.log(response);
             bidNum = response.Count;
             counterModel.incrCount().then(function(error){
                 console.log(error);
@@ -51,7 +51,7 @@ function updateBid(req, res) {
     bidModel
         .updateBid(bid, req.params.bidId)
         .then(function (bid) {
-            console.log(bid)
+            console.log(bid);
             res.send(bid);
         }, function (err) {
             console.log("error");

@@ -1,5 +1,6 @@
 import React from 'react';
-import {Field, reduxForm} from 'redux-form';
+//import {Field, reduxForm} from 'redux-form';
+import {Form, Field} from 'react-final-form';
 import {connect} from 'react-redux';
 
 import {bidCreate} from '../../actions/index'
@@ -9,6 +10,17 @@ class BidCreate extends React.Component {
     //if we dont do this we have to do something like:
     //onChange={formProps.input.onChange} for every form property we want to use from redux form.
     //this is an even shorter version of {...formProps.input} by destructuring input out of formProps.
+
+    normalizeString = (string) => {
+        //formate of date must be "11/23/2019 5:32 PM"
+        const d = new Date(string);
+        console.log(d);
+        const ned = d.toJSON();
+        console.log(ned);
+        const stringDate = `${ned}`;
+        console.log(stringDate);
+        return stringDate;
+    };
 
     renderError({error, touched}) {
         if(touched && error) {
@@ -35,24 +47,29 @@ class BidCreate extends React.Component {
     };
 
     onSubmit = (formValues) => {
-        console.log(formValues);
         //call the action creator to create bid
+        formValues.Requested_Dttm = this.normalizeString(formValues.Requested_Dttm);
         this.props.bidCreate(formValues);
     };
 
     render() {
         return(
+            <Form
+                onSubmit={this.onSubmit}
+                render = { ({handleSubmit}) => (
             <div className="ui container">
-          <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
+          <form onSubmit={handleSubmit} className="ui form error">
               <Field name="Buyer" component={this.renderInput} label="Buyer Name"/>
               <Field name = "Proj_Name" component={this.renderInput} label="Project Name"/>
-                <Field name = "Req_ID" component={this.renderInput} label="Requisition Number"/>
+                <Field name = "Req_ID" component={this.renderInput} label="Requisition Number" />
                 <Field name = "Fund_Code" component={this.renderInput} label="funding Source Code"/>
                 <Field name = "Bid_Type" component={this.renderInput} label="Bid Type"/>
-                <Field name = "bidOpeningDate" component={this.renderInput} label="Bid opening Date"/>
+                <Field name = "Requested_Dttm" component={this.renderInput} label="Bid opening Date"/>
                 <button className = "ui button primary">Submit</button>
           </form>
             </div>
+        )} />
+
 
         );
     }
@@ -87,9 +104,12 @@ const validate = (formValues) => {
     return errors;
 };
 
+/*
  const formWrapped = reduxForm({
 form: 'bidCreate',
     validate
 })(BidCreate);
 
  export default connect(null, {bidCreate})(formWrapped);
+ */
+export default connect(null, {bidCreate})(BidCreate);

@@ -97,7 +97,7 @@ componentDidMount() {
                         <Sidebar.Pushable style={{minHeight: '100vh'}}>
                             <Sidebar
                                 as={Menu}
-                                animation='overlay'
+                                animation='push'
                                 icon='labeled'
                                 inverted
                                 onHide={this.handleSidebarHide}
