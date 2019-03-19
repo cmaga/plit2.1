@@ -1,6 +1,7 @@
 import React from 'react';
 //import {Field, reduxForm} from 'redux-form';
 import {Form, Field} from 'react-final-form';
+import {Redirect} from "react-router-dom";
 
 
 class BidForm extends React.Component {
@@ -8,6 +9,15 @@ class BidForm extends React.Component {
     //if we dont do this we have to do something like:
     //onChange={formProps.input.onChange} for every form property we want to use from redux form.
     //this is an even shorter version of {...formProps.input} by destructuring input out of formProps.
+
+    state ={fireRedirect: false};
+
+    componentDidMount() {
+        console.log(this.state.fireRedirect);
+        if (this.state.fireRedirect) {
+            return <Redirect to='/bids' />;
+        }
+    }
 
     normalizeString = (string) => {
         //formate of date must be "11/23/2019 5:32 PM"
@@ -46,6 +56,7 @@ class BidForm extends React.Component {
 
     onSubmit = (formValues) => {
         this.props.onSubmit(formValues);
+        this.setState({fireRedirect: true});
     };
 
     render() {

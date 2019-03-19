@@ -5,17 +5,17 @@ import {connect} from 'react-redux';
 
 import {bidCreate} from '../../actions/index'
 import BidForm from './BidForm';
+import {Redirect} from "react-router-dom";
 
 class BidCreate extends React.Component {
+
+
 
     normalizeString = (string) => {
         //formate of date must be "11/23/2019 5:32 PM"
         const d = new Date(string);
-        console.log(d);
         const ned = d.toJSON();
-        console.log(ned);
         const stringDate = `${ned}`;
-        console.log(stringDate);
         return stringDate;
     };
 
@@ -23,6 +23,7 @@ class BidCreate extends React.Component {
         //call the action creator to create bid
         formValues.Requested_Dttm = this.normalizeString(formValues.Requested_Dttm);
         this.props.bidCreate(formValues);
+        this.setState({fireRedirect: true});
     };
 
     render() {
