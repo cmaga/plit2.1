@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {bidList}from '../../actions';
+import AddBidButton from './AddBidButton';
 import Options from './Options';
 
 //TODO change bk name
@@ -14,7 +15,6 @@ class Bids extends React.Component {
 
     formatDate = (string) => {
       const options = {year: 'numeric', month: 'long', day: 'numeric' };
-      console.log(string);
       return new Date(string).toLocaleDateString([], options);
     };
 
@@ -27,6 +27,7 @@ class Bids extends React.Component {
 
         return (
         <div className="ui container">
+            <AddBidButton/>
             <table className="ui single line table">
                 <thead>
                 <tr>

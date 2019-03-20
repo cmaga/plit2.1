@@ -7,9 +7,7 @@ import {bidDelete} from '../../actions/index'
 
 class Options extends React.Component {
     state = {value: ''};
-  componentDidMount() {
-    //check if user is admin
-  }
+
 
   componentDidUpdate() {
       //when the state updates redirect based on that state to the correct page

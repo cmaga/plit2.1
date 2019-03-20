@@ -10,27 +10,26 @@ class BidEdit extends React.Component {
     //TODO get the component to work on its own, try fetching a single bid or the entire bid list
     //we tried bid list in cdm already
     componentDidMount() {
+        //TODO maybe change this to only get the bid we care about
         this.props.bidList();
     }
     formatDate = (string) => {
         const options = {year: 'numeric', month: 'long', day: 'numeric' };
-        console.log(string);
         return new Date(string).toLocaleDateString([], options);
     };
     normalizeString = (string) => {
         //formate of date must be "11/23/2019 5:32 PM"
         const d = new Date(string);
-        console.log(d);
         const ned = d.toJSON();
-        console.log(ned);
+
         const stringDate = `${ned}`;
-        console.log(stringDate);
         return stringDate;
     };
 
     onSubmit = formValues => {
         formValues.Requested_Dttm = this.normalizeString(formValues.Requested_Dttm);
-        this.props.editBid(formValues);
+        console.log(`this is the bid id from the client side ${this.props.bid._id}`);
+        this.props.editBid(formValues, this.props.bid._id);
     };
 
   render() {

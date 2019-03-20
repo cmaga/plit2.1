@@ -26,8 +26,14 @@ function getSpecificBid(bidId) {
 
 function updateBid(bid, bidId) {
     console.log(bidId);
-    console.log("UPDATING " + JSON.stringify(bid))
-    return bidModel.updateOne({"_id": bidId}, {$set: bid});
+    console.log("UPDATING " + JSON.stringify(bid));
+    return bidModel.findOneAndUpdate({"_id": bidId}, {$set: bid}, {new: true}, (err, doc) => {
+        if (err) {
+            console.log(`the bid id we are searching for is ${bidId}`);
+            console.log("something went wrong when updating data")
+        }
+        console.log(doc);
+    });
 }
 function removeBid(bidId) {
     return bidModel.remove({"_id": bidId});

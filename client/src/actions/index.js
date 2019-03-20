@@ -80,7 +80,7 @@ export const bidCreate = (formValues) => async dispatch => {
 };
 
 export const bidDelete = (bidId) => async dispatch => {
-    const response = plitApi.delete(`/api/remove-bid/${bidId}`);
+    const response = await plitApi.delete(`/api/remove-bid/${bidId}`);
 
     dispatch ({
         type: DELETE_BID,
@@ -90,7 +90,7 @@ export const bidDelete = (bidId) => async dispatch => {
 
 //TODO may need to be restructured right now its just copying old plit
 export const editBid = (formValues, bidId) => async dispatch => {
-  const response = plitApi.put(`api/update-bid/${bidId}`, formValues);
+  const response = await plitApi.put(`api/update-bid/${bidId}`, formValues);
 
   //TODO make the dispatch
     dispatch({

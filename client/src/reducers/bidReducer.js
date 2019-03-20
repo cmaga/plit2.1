@@ -18,9 +18,9 @@ export default(state={}, action) => {
         case DELETE_BID:
             return _.omit(state, action.payload);
         case BID:
-            return {...state, [action.payload.id]: action.payload};
+            return {...state, [action.payload._id]: action.payload};
         case EDIT_BID:
-            return {...state, [action.payload.id]: action.payload};
+            return {...state, [action.payload._id]: action.payload};
         default:
             return state;
     }
