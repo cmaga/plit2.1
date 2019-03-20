@@ -1,7 +1,7 @@
 import React from 'react';
 //import {Field, reduxForm} from 'redux-form';
 import {Form, Field} from 'react-final-form';
-import {Redirect} from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
 
 class BidForm extends React.Component {
@@ -12,13 +12,13 @@ class BidForm extends React.Component {
 
     state ={fireRedirect: false};
 
-    componentDidMount() {
-        console.log(this.state.fireRedirect);
+
+
+    redirect = () => {
         if (this.state.fireRedirect) {
             return <Redirect to='/bids' />;
         }
-    }
-
+    };
     normalizeString = (string) => {
         //formate of date must be "11/23/2019 5:32 PM"
         const d = new Date(string);
@@ -75,6 +75,7 @@ class BidForm extends React.Component {
                             <Field name = "Requested_Dttm" component={this.renderInput} label="Bid opening Date ( Please enter in the following format MM/DD/YYYY HH:MM PM/AM)"/>
                             <button className = "ui button primary">Submit</button>
                         </form>
+                        {this.redirect()}
                     </div>
                 )} />
 
