@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bidList}from '../../actions';
 import AddBidButton from './AddBidButton';
 import Options from './Options';
+import BidSearch from "./BidSearch";
 
 //TODO change bk name
 class Bids extends React.Component {
@@ -27,6 +28,7 @@ class Bids extends React.Component {
 
         return (
         <div className="ui container">
+            <BidSearch/>
             <AddBidButton/>
             <table className="ui single line table">
                 <thead>

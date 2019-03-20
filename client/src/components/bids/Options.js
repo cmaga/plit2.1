@@ -18,8 +18,12 @@ class Options extends React.Component {
   }
 
     checkAdmin = () => {
+      console.log(this.props.role);
     if (this.props.role==="Admin") {
-
+        console.log('admin is the user rights');
+        return false;
+    } else {
+        return true;
     }
   };
 
@@ -30,7 +34,7 @@ class Options extends React.Component {
       [
           {key: 'filler', icon: 'sort down', text:'Select an option:', value: ''},
       { key: 'edit', icon: 'edit', text: 'Edit Bid', value: 'edit' },
-      { key: 'delete', icon: 'delete', text: 'Remove Bid', value: 'delete' },
+      { key: 'delete', icon: 'delete', text: 'Remove Bid', value: 'delete', disabled: this.checkAdmin() },
           ]
   );
     };
