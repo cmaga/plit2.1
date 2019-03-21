@@ -12,6 +12,11 @@ class BidSearch extends Component {
     componentDidUpdate() {
         console.log(this.state.results);
     }
+//does not work
+    arrayAccess = (results) => {
+
+        //access and return each index as you loop through
+    };
 
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
 
@@ -42,7 +47,7 @@ class BidSearch extends Component {
                     loading={isLoading}
                     onResultSelect={this.handleResultSelect}
                     onSearchChange={_.debounce(this.handleSearchChange, 500, {leading: true})}
-                    results={results.map = result => result._id}
+                    results={results}
                     value={value}
                 />
                     </div>
