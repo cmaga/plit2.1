@@ -1,77 +1,46 @@
-import _ from 'lodash'
-import React, { Component } from 'react'
-import { Search, Grid, Header, Segment } from 'semantic-ui-react'
+import React from 'react';
+import {Form, Field} from 'react-final-form';
 import {connect} from 'react-redux';
+import { searchBids } from '../../actions/index';
+
+import { Button } from 'semantic-ui-react';
 
 
-class BidSearch extends Component {
-    componentWillMount() {
-        this.resetComponent()
-    }
+class BidSearch extends React.Component {
 
-    componentDidUpdate() {
-        console.log(this.state.results);
-    }
-//does not work
-    arrayAccess = (results) => {
-
-        //access and return each index as you loop through
+    renderInput = ({input, label}) => {
+      return (
+          <div className="ui right aligned search">
+              <div className="ui icon input">
+              <input {...input} type="text" placeholder="Search Bids..." className = "prompt"/>
+                  <i className = "search icon"/>
+              </div>
+          </div>
+      )  ;
     };
 
-    resetComponent = () => this.setState({ isLoading: false, results: [], value: '' });
-
-    handleResultSelect = (e, { result }) => this.setState({ value: result.Proj_Name });
-
-    handleSearchChange = (e, { value }) => {
-        this.setState({ isLoading: true, value });
-
-        setTimeout(() => {
-            if (this.state.value.length < 1) return this.resetComponent();
-
-            const re = new RegExp(_.escapeRegExp(this.state.value), 'i');
-            const isMatch = result => re.test(result.Proj_Name);
-
-            this.setState({
-                isLoading: false,
-                results: _.filter(this.props.bids, isMatch),
-            })
-        }, 300)
+    onSubmit = (formValues) => {
+      //alert(JSON.stringify(formValues));
+      this.props.searchBids(formValues);
     };
 
-    renderLogic = () => {
-        const { isLoading, value, results } = this.state;
-                if (results) {
-                return (
-                    <div>
-                <Search
-                    loading={isLoading}
-                    onResultSelect={this.handleResultSelect}
-                    onSearchChange={_.debounce(this.handleSearchChange, 500, {leading: true})}
-                    results={results}
-                    value={value}
-                />
-                    </div>
-                );
-            } else {
-                    return null;
-                }
-    };
+ render() {
+     return (
+           <Form
+           onSubmit={this.onSubmit}
+           render = {({handleSubmit}) => (
 
-    render() {
+               <form onSubmit={handleSubmit}>
+                   <div>
+                    <Field name = "search" component = {this.renderInput} label="Search for a Bid" />
+                   </div>
+                   <button className = "ui button primary">Search</button>
+               </form>
 
-
-        return (
-
-
-            this.renderLogic()
-
-        );
-    }
+               )}
+               />
+     );
+ }
 }
 
-const mapStateToProps = (state) => {
-  return {
-      bids: Object.values(state.bids)
-  };
-};
-export default connect(mapStateToProps)(BidSearch);
+export default connect(null, {searchBids})(BidSearch);

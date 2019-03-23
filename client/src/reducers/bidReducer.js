@@ -4,12 +4,13 @@ import {
     BID,
     CREATE_BID,
     DELETE_BID,
-    EDIT_BID
+    EDIT_BID,
+    SEARCH_NAME
 } from '../actions/types';
 
 
 
-export default(state={}, action) => {
+export default(state={search: ''}, action) => {
     switch(action.type) {
         case BIDS:
             return {...state, ..._.mapKeys(action.payload, '_id')};
@@ -21,6 +22,8 @@ export default(state={}, action) => {
             return {...state, [action.payload._id]: action.payload};
         case EDIT_BID:
             return {...state, [action.payload._id]: action.payload};
+        case SEARCH_NAME:
+            return {...state, search: action.payload};
         default:
             return state;
     }

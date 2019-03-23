@@ -7,3 +7,4 @@ export const BID = "BID";
 export const CREATE_BID = "CREATE_BID";
 export const DELETE_BID = "DELETE_BID";
 export const EDIT_BID = "EDIT_BID";
+export const SEARCH_NAME = "SEARCH_NAME";

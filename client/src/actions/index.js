@@ -7,7 +7,8 @@ import {SIGN_IN,
     BID,
     CREATE_BID,
     DELETE_BID,
-    EDIT_BID
+    EDIT_BID,
+    SEARCH_NAME
 } from "./types";
 
 
@@ -97,5 +98,12 @@ export const editBid = (formValues, bidId) => async dispatch => {
         type: EDIT_BID,
         payload: response.data
     });
+};
+
+export const searchBids = (searchInput) => {
+  return {
+      type: SEARCH_NAME,
+      payload: searchInput
+  }
 };
 

@@ -70,11 +70,44 @@ class Bids extends React.Component {
     }
 }
 
+
 const mapStateToProps = state => {
+
+    const filterBids = (array, query) => {
+        console.log(query);
+        console.log(typeof(query));
+        const filteredArray = array.filter(bid => bid.Proj_Name && bid.Proj_Name.toLowerCase().includes(query.toLowerCase()));
+
+        console.log(filteredArray);
+        return filteredArray;
+
+    };
+    let bidsUnfiltered = Object.values(state.bids);
+
+    console.log(bidsUnfiltered);
+    //console.log(`this is the query term: ${state.bids.search.search}`);
+
+
+
+    const mapHelper = () => {
+        if (state.bids.search !== '') {
+            //console.log(filterBids(bidsUnfiltered, state.bids.search));
+            return (
+                //console.log(bidsUnfiltered.filter(bid => bid.Proj_Name === state.search));
+                filterBids(bidsUnfiltered, state.bids.search.search)
+            );
+        } else {
+            return bidsUnfiltered;
+        }
+    };
+
+
+
   return {
-      bids: Object.values(state.bids),
+      bids: mapHelper(),
       isSignedIn: state.auth.isSignedIn,
-      user: state.auth.user
+      user: state.auth.user,
+      search: state.bids.search
   };
 };
 export default connect(mapStateToProps, {bidList})(Bids);
