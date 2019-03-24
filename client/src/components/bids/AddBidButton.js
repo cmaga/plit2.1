@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 const AddBidButton = () => {
   return (
       <div>
-          <Button className = "ui right floated positive button" as = {Link} to = '/bid/add'>Add Bid</Button>
+          <Button className = "ui positive button" as = {Link} to = '/bid/add'>Add Bid</Button>
       </div>
   )  ;
 };

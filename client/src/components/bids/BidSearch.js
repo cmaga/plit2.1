@@ -28,13 +28,15 @@ class BidSearch extends React.Component {
      return (
            <Form
            onSubmit={this.onSubmit}
+           initialValues={{search: ""}}
            render = {({handleSubmit}) => (
 
                <form onSubmit={handleSubmit}>
-                   <div>
-                    <Field name = "search" component = {this.renderInput} label="Search for a Bid" />
-                   </div>
-                   <button className = "ui button primary">Search</button>
+                       <div className = "inline">
+                            <Field name = "search" component = {this.renderInput} label="Search for a Bid" />
+                            <button className = "ui button primary">Search</button>
+                       </div>
+
                </form>
 
                )}

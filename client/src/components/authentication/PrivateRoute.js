@@ -32,10 +32,8 @@ componentDidMount() {
 
     viewLogic = () => {
         if (this.props.tabState === 'tools') {
-            console.log('TOOLS');
             return this.toolsView();
         } else if (this.props.tabState === 'intranet') {
-            console.log('intra');
             return this.intranetView();
         } else {
             return null;

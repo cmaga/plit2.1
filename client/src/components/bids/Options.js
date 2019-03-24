@@ -13,18 +13,11 @@ class Options extends React.Component {
       //when the state updates redirect based on that state to the correct page
       if (this.state.value === 'edit') {
           return <Redirect to='/' />
-          console.log(this.state.value);
       }
   }
 
     checkAdmin = () => {
-      console.log(this.props.role);
-    if (this.props.role==="Admin") {
-        console.log('admin is the user rights');
-        return false;
-    } else {
-        return true;
-    }
+    return this.props.role !== "Admin";
   };
 
   handleChange = (e, {value}) => this.setState({value});

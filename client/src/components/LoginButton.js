@@ -36,7 +36,6 @@ class LoginButton extends React.Component {
                 </div>
             );
         } else {
-            console.log(this.props.isSignedIn);
             return (
                 <button
                     className="positive ui button"

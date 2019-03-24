@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 
 import {bidList}from '../../actions';
 import AddBidButton from './AddBidButton';
+import MainBid from './MainBid';
 import Options from './Options';
 import BidSearch from "./BidSearch";
 
@@ -19,17 +21,15 @@ class Bids extends React.Component {
       return new Date(string).toLocaleDateString([], options);
     };
 
-    renderAdmin(bid) {
-
-    }
 
 
     renderList() {
 
         return (
         <div className="ui container">
-            <BidSearch/>
-            <AddBidButton/>
+            <MainBid/>
+            
+
             <table className="ui single line table">
                 <thead>
                 <tr>
@@ -56,9 +56,6 @@ class Bids extends React.Component {
         );
     }
 
-    renderCreate() {
-    }
-
 
 
     render() {
@@ -74,40 +71,45 @@ class Bids extends React.Component {
 const mapStateToProps = state => {
 
     const filterBids = (array, query) => {
-        console.log(query);
+        console.log(`this is the query ${query}`);
         console.log(typeof(query));
         const filteredArray = array.filter(bid => bid.Proj_Name && bid.Proj_Name.toLowerCase().includes(query.toLowerCase()));
 
-        console.log(filteredArray);
+        //console.log(filteredArray);
         return filteredArray;
 
     };
     let bidsUnfiltered = Object.values(state.bids);
 
-    console.log(bidsUnfiltered);
+
     //console.log(`this is the query term: ${state.bids.search.search}`);
 
 
 
     const mapHelper = () => {
-        if (state.bids.search !== '') {
+
+        if ((state.search.search !== "") && (_.isEmpty(state.search.search) === false)) {
             //console.log(filterBids(bidsUnfiltered, state.bids.search));
+
+            console.log('search logic happened');
+            console.log(`the type of object that sear search is ${typeof state.search.search}`);
             return (
                 //console.log(bidsUnfiltered.filter(bid => bid.Proj_Name === state.search));
-                filterBids(bidsUnfiltered, state.bids.search.search)
+                filterBids(bidsUnfiltered, state.search.search.search)
             );
         } else {
+            console.log('search logic failed');
             return bidsUnfiltered;
         }
     };
 
 
-
+//TODO remove search from down here we dont actually need the state of search as a prop in the component
   return {
       bids: mapHelper(),
       isSignedIn: state.auth.isSignedIn,
       user: state.auth.user,
-      search: state.bids.search
+      search: state.search
   };
 };
 export default connect(mapStateToProps, {bidList})(Bids);
