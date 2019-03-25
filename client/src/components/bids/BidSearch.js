@@ -1,14 +1,12 @@
 import React from 'react';
+
 import {Form, Field} from 'react-final-form';
 import {connect} from 'react-redux';
 import { searchBids } from '../../actions/index';
 
-import { Button } from 'semantic-ui-react';
-
-
 class BidSearch extends React.Component {
 
-    renderInput = ({input, label}) => {
+    renderInput = ({input}) => {
       return (
           <div className="ui right aligned search">
               <div className="ui icon input">
@@ -20,7 +18,6 @@ class BidSearch extends React.Component {
     };
 
     onSubmit = (formValues) => {
-      //alert(JSON.stringify(formValues));
       this.props.searchBids(formValues);
     };
 
