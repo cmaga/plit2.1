@@ -4,6 +4,18 @@ special syntax. Creating a component would force you to pass components as conte
 That is also the way in which private routing is done therefore they were combined.
 */
 
+//if you want the sidebar to hide and show based on a button the code is already set up to be able to do this just add
+//the following buttons after the first div in renderRoute in render.
+/*
+<Button.Group>
+                            <Button disabled={this.state.visible} onClick={this.handleShowClick}>
+                                Show sidebar
+                            </Button>
+                            <Button disabled={!this.state.visible} onClick={this.handleHideClick}>
+                                Hide sidebar
+                            </Button>
+                        </Button.Group>
+ */
 import React, {useEffect} from 'react'
 import { Redirect, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -43,17 +55,10 @@ componentDidMount() {
     toolsView = () => {
         return(
             <div>
-                <Menu.Item as={Link} to='/'>
-                    <Icon name='home' />
-                    Home
-                </Menu.Item>
+
                 <Menu.Item as={Link} to='/bids'>
                     <Icon name='list layout'/>
                     Bids
-                </Menu.Item>
-                <Menu.Item as='a'>
-                    <Icon name='camera' />
-                    Channels
                 </Menu.Item>
             </div>
 
@@ -83,14 +88,7 @@ componentDidMount() {
                 return (
 
                     <div style={{minHeight: '100vh'}}>
-                        <Button.Group>
-                            <Button disabled={this.state.visible} onClick={this.handleShowClick}>
-                                Show sidebar
-                            </Button>
-                            <Button disabled={!this.state.visible} onClick={this.handleHideClick}>
-                                Hide sidebar
-                            </Button>
-                        </Button.Group>
+
 
                         <Sidebar.Pushable style={{minHeight: '100vh'}}>
                             <Sidebar

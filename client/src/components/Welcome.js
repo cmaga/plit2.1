@@ -1,4 +1,4 @@
-//this welcome paged acts as a log in page and welcomes new users.
+//this welcome paged acts as a login page
 
 
 import React from 'react';
