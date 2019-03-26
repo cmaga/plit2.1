@@ -34,7 +34,6 @@ function createBid(req, res) {
         .then(function (response) {
 
             //this is count from the backend
-            bidNum = response.Count;
             yearStored = response.CurrentYear;
 
             if (yearStored < currentYear) {
@@ -52,7 +51,7 @@ function createBid(req, res) {
                     .then(function (response) {
                         console.log(response);
 
-
+                        bidNum = response.Count;
 
                         //bid is pre incremented so that next time it is used it actually has already been set.
                         counterModel.incrCount().then(function(error){
@@ -79,7 +78,7 @@ function createBid(req, res) {
                 counterModel.getCount()
                     .then(function (response) {
                         console.log(response);
-
+                        bidNum = response.Count;
 
 
                         //bid is pre incremented so that next time it is used it actually has already been set.
