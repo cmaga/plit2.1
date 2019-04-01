@@ -1,44 +1,37 @@
 var nodemailer = require('nodemailer');
-console.log('in mail');
-nodemailer.createTestAccount(function (err, account) {
-    // create reusable transporter object using the default SMTP transport
-    var transporter = nodemailer.createTransport({
-        host: 'localhost',
-        tls: {rejectUnauthorized: false},
-        auth: {
-            user: "nathan@test.com",
-            pass: "nathan"
-        }
-    });
 
-// Message object
-    var message = {
-        // Comma separated list of recipients
-        to: 'noldakowski@mbta.com',
 
-        // Subject of the message
-        subject: 'Nodemailer is unicode friendly ✔',
 
-        // plaintext body
-        text: 'Hello to myself!',
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    host: 'mail.gmail.com', //TODO we can set this to be mbta smtp
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'christophernm1999@gmail.com', // generated ethereal user
+        pass: 'Chrisroxs753!'  // generated ethereal password
+    },
+    tls:{
+        rejectUnauthorized:false
+    }
+});
 
-        // HTML body
-        html:
-        '<p><b>Hello</b> to myself <img src="cid:note@example.com"/></p>' +
-        '<p>Here\'s a nyan cat for you as an embedded attachment:<br/><img src="cid:nyan@example.com"/></p>'
-    };
+// setup email data with unicode symbols
+let mailOptions = {
+    from: '"Nodemailer" <christophernm1999@gmail.com>', // sender address
+    to: 'hichris12009@hotmail.com', // list of receivers
+    subject: 'Node Contact Request', // Subject line
+    text: 'Hello world?', // plain text body
+    html: '<h1>Welcome</h1><p>That was easy!</p>' // html body
+};
 
-    transporter.sendMail(message, function (error, info) {
-        if (error) {
-            console.log('Error occurred');
-            console.log(error.message);
-            return process.exit(1);
-        }
+// send mail with defined transport object
+transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        return console.log(error);
+    }
+    console.log('Message sent: %s', info.messageId);
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-        console.log('Message sent successfully!');
-        console.log(nodemailer.getTestMessageUrl(info));
-
-// only needed when using pooled connections
-        transporter.close();
-    });
+   // res.render('contact', {msg:'Email has been sent'});
 });

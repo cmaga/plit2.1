@@ -20,3 +20,4 @@ function getCollections(req,res){
     return app.collections;
 }
 
+function get
