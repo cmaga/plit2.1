@@ -14,7 +14,7 @@ nodemailer.createTestAccount(function (err, account) {
 // Message object
     var message = {
         // Comma separated list of recipients
-        to: 'noldakowski@mbta.com',
+        to: 'cmagana@mbta.com',
 
         // Subject of the message
         subject: 'Nodemailer is unicode friendly ✔',
@@ -30,7 +30,7 @@ nodemailer.createTestAccount(function (err, account) {
 
     transporter.sendMail(message, function (error, info) {
         if (error) {
-            console.log('Error occurred');
+            console.log('Error occurred in nodemailer');
             console.log(error.message);
             return process.exit(1);
         }
