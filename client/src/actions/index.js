@@ -1,7 +1,7 @@
 import plitApi from '../api/plitApi';
-import {SIGN_IN,
+import {
+    SIGN_IN,
     SIGN_OUT,
-    FETCH_USER,
     TAB,
     BIDS,
     BID,
@@ -12,13 +12,13 @@ import {SIGN_IN,
 } from "./types";
 
 
-//just need to call auth to change state
 export const trySignOut = () => async dispatch => {
 
     const response = await plitApi.post('/api/logout');
+    console.log(response);
 
     dispatch ({
-        type: 'SIGN_OUT'
+        type: SIGN_OUT
     });
 };
 
@@ -82,6 +82,7 @@ export const bidCreate = (formValues) => async dispatch => {
 
 export const bidDelete = (bidId) => async dispatch => {
     const response = await plitApi.delete(`/api/remove-bid/${bidId}`);
+    console.log(response);
 
     dispatch ({
         type: DELETE_BID,
@@ -89,7 +90,6 @@ export const bidDelete = (bidId) => async dispatch => {
     });
 };
 
-//TODO may need to be restructured right now its just copying old plit
 export const editBid = (formValues, bidId) => async dispatch => {
   const response = await plitApi.put(`api/update-bid/${bidId}`, formValues);
 

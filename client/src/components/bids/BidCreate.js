@@ -1,18 +1,15 @@
 import React from 'react';
-//import {Field, reduxForm} from 'redux-form';
-import {Form, Field} from 'react-final-form';
 import {connect} from 'react-redux';
 
 import {bidCreate} from '../../actions/index'
 import BidForm from './BidForm';
-import {Redirect} from "react-router-dom";
 
 class BidCreate extends React.Component {
 
 
 
     normalizeString = (string) => {
-        //formate of date must be "11/23/2019 5:32 PM"
+        //format of date must be "11/23/2019 5:32 PM"
         const d = new Date(string);
         const ned = d.toJSON();
         const stringDate = `${ned}`;

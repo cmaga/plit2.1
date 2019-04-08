@@ -19,8 +19,9 @@ class BidForm extends React.Component {
             return <Redirect to='/bids' />;
         }
     };
+
     normalizeString = (string) => {
-        //formate of date must be "11/23/2019 5:32 PM"
+        //format of date must be "11/23/2019 5:32 PM"
         const d = new Date(string);
         console.log(d);
         const ned = d.toJSON();
@@ -28,6 +29,11 @@ class BidForm extends React.Component {
         const stringDate = `${ned}`;
         console.log(stringDate);
         return stringDate;
+    };
+    convertDate=(inputFormat)=> {
+        function pad(s) { return (s < 10) ? '0' + s : s; }
+        const d = new Date(inputFormat);
+        return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
     };
 
     renderError({error, touched}) {
@@ -41,8 +47,9 @@ class BidForm extends React.Component {
     }
 
 
-    renderInput = ({ input, label, meta }) => {
+    renderInput = ({ input, label, meta}) => {
         const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
+
         return (
             <div className = {className}>
                 <label>{label}</label>
@@ -59,25 +66,34 @@ class BidForm extends React.Component {
         this.setState({fireRedirect: true});
     };
 
+    getDate = () => {
+      const today = new Date();
+      const todayFormatted = (this.convertDate(today));
+      return `${todayFormatted} 2:00 PM`
+
+    };
+
     render() {
-        return(
+        return (
             <Form
                 onSubmit={this.onSubmit}
                 initialValues={this.props.initialValues}
-                render = { ({handleSubmit}) => (
+                validate={validate}
+                render={({handleSubmit}) => (
                     <div className="ui container">
                         <form onSubmit={handleSubmit} className="ui form error">
                             <Field name="Buyer" component={this.renderInput} label="Buyer Name"/>
-                            <Field name = "Proj_Name" component={this.renderInput} label="Project Name"/>
-                            <Field name = "Req_ID" component={this.renderInput} label="Requisition Number" />
-                            <Field name = "Fund_Code" component={this.renderInput} label="funding Source Code"/>
-                            <Field name = "Bid_Type" component={this.renderInput} label="Bid Type"/>
-                            <Field name = "Requested_Dttm" component={this.renderInput} label="Bid opening Date ( Please enter in the following format MM/DD/YYYY HH:MM PM/AM)"/>
-                            <button className = "ui button primary">Submit</button>
+                            <Field name="Proj_Name" component={this.renderInput} label="Project Name"/>
+                            <Field name="Req_ID" component={this.renderInput} label="Requisition Number"/>
+                            <Field name="Fund_Code" component={this.renderInput} label="funding Source Code"/>
+                            <Field name="Bid_Type" component={this.renderInput} label="Bid Type"/>
+                            <Field name="Requested_Dttm" component={this.renderInput} initialValue={this.getDate()}
+                                   label="Bid opening Date ( Please adjust if necessary)"/>
+                            <button className="ui button primary">Submit</button>
                         </form>
                         {this.redirect()}
                     </div>
-                )} />
+                )}/>
 
 
         );
@@ -106,19 +122,12 @@ const validate = (formValues) => {
         errors.Bid_Type = 'You must enter the Bid type'
     }
 
-    if (!formValues.bidOpeningDate) {
-        errors.bidOpeningDate = 'You must enter the bid opening date';
+    if (!formValues.Requested_Dttm) {
+        errors.Requested_Dttm = 'You must enter the bid opening date';
     }
 
     return errors;
 };
 
-/*
- const formWrapped = reduxForm({
-form: 'bidCreate',
-    validate
-})(BidCreate);
 
- export default connect(null, {bidCreate})(formWrapped);
- */
 export default BidForm;
