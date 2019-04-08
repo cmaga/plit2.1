@@ -1,26 +1,29 @@
-var nodemailer = require('nodemailer');
+let nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
+let transporter = nodemailer.createTransport({
+    host: 'smtp-mail.outlook.com',
     tls: {
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        ciphers: 'SSLv3'
     },
+    secureConnection: false,
+    port: 587,
     auth: {
-        user: 'christophernm1999@gmail.com',
+        user: 'hichris12009@hotmail.com',
         pass: 'Chrisroxs753!'
     }
 });
 
-var mailOptions = {
-    from: 'christophernm1999@gmail.com',
-    to: 'cmagana@mbta.com',
+let mailOptions = {
+    from: 'hichris12009@hotmail.com',
+    to: 'christophernm1999@gmail.com',
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
 };
 
 transporter.sendMail(mailOptions, function(error, info){
     if (error) {
-        console.log(`${error} this is an error from node`);
+        console.log(error);
     } else {
         console.log('Email sent: ' + info.response);
     }
