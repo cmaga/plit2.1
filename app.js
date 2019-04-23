@@ -25,6 +25,8 @@ require("./server/user/services/user.service.server");
 require("./server/bids/services/file.service.server");
 require("./server/bids/services/bid.service.server");
 
+require("./server/excel/excel-service.server");////////////////////////////////////
+
 require("./server/bids/services/bid.service.server");
 require("./server/document_editor/document_editor.service.server");
 
