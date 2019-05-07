@@ -2,11 +2,12 @@ var mongoose = require('mongoose');
 
 var excelSchema = mongoose.Schema({
 
-    "Executing Department": String,
-    "Project ID": String,
-    "Project Name": String,
+    "Executing_Department": String,
+    "Project_ID": String,
+    "Project_Name": String,
     "Director": String,
-    "Project Manager": String,
+    "Project_Manager": String,
+    "wo_nbr": Number,
 
 
 },

@@ -129,6 +129,7 @@ function updateBid(req, res) {
 }
 
 function getBids(req, res) {
+    console.log('getting bids...');
     bidModel
         .getBids()
         .then(function (bids) {

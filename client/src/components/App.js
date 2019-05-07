@@ -8,6 +8,7 @@ import Header from './Header';
 import Bids from './bids/Bids';
 import BidEdit from './bids/BidEdit';
 import BidCreate from './bids/BidCreate';
+import Report from './earlyWarning/Report';
 
 const App = () => {
 
@@ -23,6 +24,7 @@ const App = () => {
                     <PrivateRoute path="/bids" exact component = {Bids}/>
                       <PrivateRoute path="/bid/edit/:id" exact component = {BidEdit}/>
                       <PrivateRoute path="/bid/add" exact component = {BidCreate}/>
+                      <Route path="/earlywarning" exact component={Report}/>
                   </Switch>
               </div>
 

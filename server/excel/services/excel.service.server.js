@@ -1,11 +1,11 @@
-var app =  require('../../express');
-var excelModel = require('./excel-model');
+var app =  require('../../../express');
+var excelModel = require('../model/excel.model.server');
 var csv = require('fast-csv');
 
-const fs = require('fs');
-const http = require('http');
-const multer = require('multer');
-const upload = multer({dest: 'server/csv/temporary/'});
+var fs = require('fs');
+var http = require('http');
+var multer = require('multer');
+var upload = multer({dest: 'server/csv/temporary/'});
 
 var mongoose = require('mongoose');
 var db = mongoose.connection;
@@ -13,7 +13,28 @@ var db = mongoose.connection;
 
 //TODO writing the service file for forest excel csv import.
 
-app.get('/api/excel', excelParse);
+app.get('/api/excelForest', getForestData);
+
+
+function getForestData (req, res) {
+    excelModel
+        .getForestData()
+        .then (function (data) {
+            res.send(data);
+        }, function (err) {
+            res.send(err);
+        });
+}
+
+function getEarlyWarningData(req, res) {
+    excelModel
+        .getEarlyWarningData()
+        .then(function (data) {
+            res.send(data);
+        }, function (err) {
+            res.send(err);
+        });
+}
 
 //TODO this works but we need a response in the browser and we may want objects instead of arrays.
 
@@ -22,11 +43,11 @@ app.post('/api/upload', upload.single('file'), function (req, res) {
 
     let dummy = {
 
-        "Project ID" : "P0006  ",
-        "Project Name" : "Gloucester Drawbridge Replacement",
-        "Executing Department" : "Capital Delivery",
+        "Project_ID" : "P0006",
+        "Project_Name" : "Gloucester Drawbridge Replacement",
+        "Executing_Department" : "Capital Delivery",
         "Director" : "Cadman, Kenneth",
-        "Project Manager" : "Nicoll, Brad",
+        "Project_Manager" : "Nicoll, Brad",
     };
 
     //create a collection with dummy data just in case there is not already one there
@@ -47,20 +68,27 @@ app.post('/api/upload', upload.single('file'), function (req, res) {
     csv.fromPath(req.file.path, {headers: true})
         .on("data", function (data) {
             fileRows.push(data); // push each row
-
+            //TODO here we can pass the data individually and keep calling findOneandInsert
+            //TODO check if data is 1 or all.
             excelModel
                 .insertExcelData(data)
                 .then(function (response) {
+                    //convert the wo_nbr to a number from a string for all objects.
+                    let convertedNumber = parseInt(data.wo_nbr, 10);
+                    data.wo_nbr = convertedNumber;
+
+                    console.log(data);
                     console.log('thinking...');
                 });
 
         })
         .on("end", function () {
-            console.log(fileRows);
+            //console.log(fileRows);
             fs.unlinkSync(req.file.path);   // remove temp file
             //process "fileRows" and respond
 
             res.send(fileRows);
+            console.log("done uploading and inserting excel file");
         });
 });
 
