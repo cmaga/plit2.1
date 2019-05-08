@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Form, Field} from 'react-final-form';
 
 import BidForm from './BidForm';
 import {editBid, bidList} from '../../actions/index';

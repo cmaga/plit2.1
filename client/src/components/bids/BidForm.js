@@ -1,5 +1,4 @@
 import React from 'react';
-//import {Field, reduxForm} from 'redux-form';
 import {Form, Field} from 'react-final-form';
 import { Redirect } from 'react-router-dom';
 

@@ -16,10 +16,10 @@ That is also the way in which private routing is done therefore they were combin
                             </Button>
                         </Button.Group>
  */
-import React, {useEffect} from 'react'
+import React from 'react'
 import { Redirect, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Button, Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react';
+import { Icon, Menu, Sidebar } from 'semantic-ui-react';
 
 import {checkLoginStatus} from "../../actions";
 

@@ -1,7 +1,6 @@
 import plitApi from '../api/plitApi';
 import {SIGN_IN,
     SIGN_OUT,
-    FETCH_USER,
     TAB,
     BIDS,
     BID,
@@ -14,11 +13,11 @@ import {SIGN_IN,
 
 //just need to call auth to change state
 export const trySignOut = () => async dispatch => {
-
+//singing out is handled on the server side but whether or not the user is signed in is also stored in Redux
     const response = await plitApi.post('/api/logout');
 
     dispatch ({
-        type: 'SIGN_OUT'
+        type: SIGN_OUT
     });
 };
 
@@ -89,11 +88,9 @@ export const bidDelete = (bidId) => async dispatch => {
     });
 };
 
-//TODO may need to be restructured right now its just copying old plit
 export const editBid = (formValues, bidId) => async dispatch => {
   const response = await plitApi.put(`api/update-bid/${bidId}`, formValues);
 
-  //TODO make the dispatch
     dispatch({
         type: EDIT_BID,
         payload: response.data
