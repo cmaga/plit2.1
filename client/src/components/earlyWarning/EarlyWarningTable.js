@@ -131,6 +131,7 @@ class EarlyWarningTable extends React.Component {
     //reduce executes a reducer function that is provided on each element of the array resulting a single output value.
     let storedId='XD';
     let check;
+    console.log(this.state.compositeArray);
     return (
         <div style={{ overflow: "auto" }}>
           <table className="ui single line table">
@@ -171,6 +172,8 @@ class EarlyWarningTable extends React.Component {
                     {!matchBool && check && (forest.Executing_Department === "Vehicle Maintenance" || forest.Executing_Department === "Vehicle Engineering") && <td>{forest.Director}</td>}
                     {!matchBool && check && (forest.Executing_Department === "Vehicle Maintenance" || forest.Executing_Department === "Vehicle Engineering") && <td>{forest.Project_Manager}</td>}
 
+                    {!matchBool && check && (forest.Executing_Department === "Vehicle Maintenance" || forest.Executing_Department === "Vehicle Engineering") && <td>{forest.Project_Manager}</td>}
+
                   </tr>
                       );
             })}
@@ -180,7 +183,44 @@ class EarlyWarningTable extends React.Component {
       );
   };
 
+  strayWorkOrderTable() {
+    return(
+        <div style={{ overflow: "auto" }}>
+          <table className="ui single line table">
+            <thead>
+            <tr>
+              <th>WO_No</th>
 
+            </tr>
+            </thead>
+
+            <tbody>
+                  <tr>
+                  <td>301572</td>
+                    <td>201574</td>
+                    <td>301598</td>
+                    <td>301869</td>
+                    <td>301595</td>
+                    <td>301596</td>
+                    <td>3015967</td>
+                    <td>301599</td>
+                    <td>301600</td>
+                    <td>301870</td>
+                    <td>301874</td>
+                    <td>300070</td>
+                    <td>301575</td>
+                    <td>301576</td>
+                    <td>301579</td>
+                    <td>301580</td>
+                    <td>301871</td>
+
+
+                  </tr>
+            </tbody>
+          </table>
+        </div>
+    );
+  }
   renderEarlyWarningTable() {
     let count = 0;
     let composite = [];
@@ -217,7 +257,8 @@ class EarlyWarningTable extends React.Component {
             {this.props.earlyWarningArray.map(early => {
 
               const matchingItem = this.props.forestArray.find(
-                item => item.wo_nbr === early.WO_Num && (item.Executing_Department ==="Vehicle Maintenance" || item.Executing_Department === "Vehicle Engineering")
+                  //we are actually trying to compare using == instead of === because we are comparing a string to a number
+                item => item.wo_nbr == early.WO_Num && (item.Executing_Department ==="Vehicle Maintenance" || item.Executing_Department === "Vehicle Engineering")
               );
 
               //let composite = [];
@@ -296,6 +337,7 @@ class EarlyWarningTable extends React.Component {
         <div>
           {this.renderEarlyWarningTable()}
           {this.ideaList3()}
+          {this.strayWorkOrderTable()}
         </div>
     )
   }
