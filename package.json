@@ -6,7 +6,7 @@
     "start": "node ./server.js prod",
     "test": "node ./server.js dev",
     "server": "nodemon server.js prod",
-    "bang": "concurrently \"nodemon ./server.js prod\" \"cd client && npm start\""
+    "nodemon": "concurrently \"nodemon ./server.js prod\" \"cd client && npm start\""
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

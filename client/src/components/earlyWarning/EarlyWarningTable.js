@@ -5,10 +5,50 @@ import fns from "date-fns"; //like lodash for dates
 class EarlyWarningTable extends React.Component {
   state = {compositeArray: []};
 
+  //contains mathes between the uploaded (forest) excel sheet and the early warning data pull that is in the database by worker order number
+ buildCompositeArray = () => {
+    let count = 0;
+    let composite = [];
+    this.props.earlyWarningArray.forEach(early => {
+
+      const matchingItem = this.props.forestArray.find(
+          //intentionally comparing using == instead of === because we are comparing a string to a number
+          item => item.wo_nbr == early.WO_Num && (item.Executing_Department === "Vehicle Maintenance" || item.Executing_Department === "Vehicle Engineering" || item.Executing_Department === "Safety")
+      );
+
+
+      if (matchingItem) {
+        composite[count] = matchingItem;
+        //setState is not used here on purpose to many state changes caused react to throw errors. So we assign state this way without forcing a rerender.
+        this.state.compositeArray[count] = matchingItem;
+        this.state.compositeArray[count].WO_Num = early.WO_Num;
+        this.state.compositeArray[count].Req_ID = early.Req_ID;
+        this.state.compositeArray[count].Req_Created_Date = early.Req_Created_Date;
+        this.state.compositeArray[count].Req_Approval_Date = early.Req_Approval_Date;
+        this.state.compositeArray[count].PO_No = early.PO_No;
+        this.state.compositeArray[count].PO_Date = early.PO_Date;
+        this.state.compositeArray[count].Date_Approved = early.Date_Approved;
+        this.state.compositeArray[count].Req_Descr = early.Req_Descr;
+        this.state.compositeArray[count].Buyer = early.Buyer;
+        this.state.compositeArray[count].Business_Unit = early.Business_Unit;
+        this.state.compositeArray[count].HOLD_STATUS = early.HOLD_STATUS;
+        this.state.compositeArray[count].Out_to_bid = early.Out_to_bid;
+        this.state.compositeArray[count].Req_Status = early.Req_Status;
+        this.state.compositeArray[count].Req_Dflt_Tble_Buyer = early.Req_Dflt_Tble_Buyer;
+        this.state.compositeArray[count].Req_Approval_Date = early.Req_Approval_Date;
+
+        if (early.PO_No === null) this.state.compositeArray[count].PO_No = "";
+        count++;
+      }
+
+    })
+  };
+
   formatDate = string => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(string).toLocaleDateString([], options);
   };
+
   durationCalculation = reqApprv => {
     //subtract today - req approval date
     const today = new Date();
@@ -17,6 +57,7 @@ class EarlyWarningTable extends React.Component {
     return result;
   };
 
+  //this is the "compare" passed to the sort method so that it will work with objects instead of just arrays.
   compareValues(key, order='asc') {
     return function(a, b) {
       if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) return 0;
@@ -27,7 +68,7 @@ class EarlyWarningTable extends React.Component {
       );
     };
   }
-
+  //Composite array is sorted primarily for grouping of Project ID's
   sortComposite = () => {
     this.state.compositeArray.sort(this.compareValues('PO_No'));
     console.log(`sorted array ${this.state.compositeArray}`);
@@ -35,11 +76,9 @@ class EarlyWarningTable extends React.Component {
 
 
   ideaList() {
-
     let storedId="X9";
     let check = true;
     let uniquePOIdeaArray = [];
-    //console.log(this.state.compositeArray);
     return (
         <div style={{ overflow: "auto" }}>
           <table className="ui single line table">
@@ -62,26 +101,6 @@ class EarlyWarningTable extends React.Component {
               const matchBool = this.state.compositeArray.some(
                 composite => composite.Project_ID === forest.Project_ID
               );
-
-              //filter to keep the same project Id's from showing up several times
-              /*
-                if (storedId === forest.Project_ID) {
-                  check = false;
-                }
-                if (storedId !== forest.Project_ID) {
-                  console.log(`check is true for ${storedId} and ${forest.Project_ID} meaning they are not equal and should be shown`);
-                  check = true;
-                }
-                */
-                // TODO create a set from the array and check the set with find before rendering XD
-
-                //check if the array already has the POID
-                check = uniquePOIdeaArray.some(x => x === forest.Project_ID);
-                if (!check) uniquePOIdeaArray.push(forest.Project_ID);
-                //console.log(uniquePOIdeaArray);
-
-              //if add else dont add
-
                 storedId = forest.Project_ID;
                 return (
                   <tr key={forest._id}>
@@ -90,8 +109,6 @@ class EarlyWarningTable extends React.Component {
                     {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance") && <td>{forest.Project_Name}</td>}
                     {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance") && <td>{forest.Director}</td>}
                     {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance") && <td>{forest.Project_Manager}</td>}
-
-
                   </tr>
                       );
             })}
@@ -100,6 +117,7 @@ class EarlyWarningTable extends React.Component {
         </div>
       );
   };
+
 
   renderEarlyWarningTableWithoutPO = () => {
     let count = 0;
@@ -134,67 +152,32 @@ class EarlyWarningTable extends React.Component {
           </thead>
 
           <tbody>
-            {this.props.earlyWarningArray.map(early => {
+            {this.state.compositeArray.map(matchingItem => {
 
-              const matchingItem = this.props.forestArray.find(
-                  //intentionally comparing using == instead of === because we are comparing a string to a number
-                item => item.wo_nbr == early.WO_Num && (item.Executing_Department ==="Vehicle Maintenance" || item.Executing_Department === "Vehicle Engineering" || item.Executing_Department === "Safety")
-              );
-
-
-
-              if(matchingItem) {
-                //let count = 0;
-                composite[count]=matchingItem;
-                //console.log(composite);
-                this.state.compositeArray[count] = matchingItem;
-                this.state.compositeArray[count].WO_Num = early.WO_Num;
-                this.state.compositeArray[count].Req_ID = early.Req_ID;
-                this.state.compositeArray[count].Req_Created_Date = early.Req_Created_Date;
-                this.state.compositeArray[count].Req_Approval_Date= early.Req_Approval_Date;
-                this.state.compositeArray[count].PO_No = early.PO_No;
-                this.state.compositeArray[count].PO_Date = early.PO_Date;
-                this.state.compositeArray[count].Date_Approved = early.Date_Approved;
-                this.state.compositeArray[count].Req_Descr = early.Req_Descr;
-                this.state.compositeArray[count].Buyer = early.Buyer;
-                this.state.compositeArray[count].Business_Unit = early.Business_Unit;
-                this.state.compositeArray[count].HOLD_STATUS = early.HOLD_STATUS;
-                this.state.compositeArray[count].Out_to_bid = early.Out_to_bid;
-                this.state.compositeArray[count].Req_Status = early.Req_Status;
-                this.state.compositeArray[count].Req_Dflt_Tble_Buyer = early.Req_Dflt_Tble_Buyer;
-                this.state.compositeArray[count].Req_Approval_Date= early.Req_Approval_Date;
-
-                //this line may affect dates that show up since null is no longer passed
-                if(early.PO_No === null) this.state.compositeArray[count].PO_No = "";
-                count++;
-              }
-
-              console.log(this.state.compositeArray);
-              console.log(count);
               return (
 
-                <tr key={early._id}>
+                <tr key={matchingItem._id}>
                   {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Executing_Department}</td>}
                   {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_ID}</td>}
                   {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_Name}</td>}
                   {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Director}</td>}
                   {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_Manager}</td>}
 
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.WO_Num}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Req_ID}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(early.Req_Created_Date)}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(early.Req_Approval_Date)}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.PO_No}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.PO_Date}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Date_Approved}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Req_Descr}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Buyer}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Business_Unit}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.HOLD_STATUS}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Out_to_bid}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Req_Status}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Req_Dflt_Tble_Buyer}</td>}
-                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.durationCalculation(early.Req_Approval_Date)}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.WO_Num}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_ID}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Req_Created_Date)}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Req_Approval_Date)}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.PO_No}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.PO_Date}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Date_Approved}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_Descr}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Buyer}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Business_Unit}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.HOLD_STATUS}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Out_to_bid}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_Status}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_Dflt_Tble_Buyer}</td>}
+                  {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.durationCalculation(matchingItem.Req_Approval_Date)}</td>}
 
 
 
@@ -240,43 +223,31 @@ class EarlyWarningTable extends React.Component {
             </thead>
 
             <tbody>
-            {this.props.earlyWarningArray.map(early => {
-
-              const matchingItem = this.props.forestArray.find(
-                  //intentionally comparing using == instead of === because we are comparing a string to a number
-                  item => item.wo_nbr == early.WO_Num && (item.Executing_Department ==="Vehicle Maintenance" || item.Executing_Department === "Vehicle Engineering" || item.Executing_Department === "Safety")
-              );
-
-
-
-
+            {this.state.compositeArray.map(matchingItem => {
               return (
 
-                  <tr key={early._id}>
+                  <tr key={matchingItem._id}>
                     {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Executing_Department}</td>}
                     {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_ID}</td>}
                     {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_Name}</td>}
                     {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Director}</td>}
                     {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_Manager}</td>}
 
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.WO_Num}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Req_ID}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(early.Req_Created_Date)}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(early.Req_Approval_Date)}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.PO_No}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(early.PO_Date)}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(early.Date_Approved)}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Req_Descr}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Buyer}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Business_Unit}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.HOLD_STATUS}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Out_to_bid}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Req_Status}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{early.Req_Dflt_Tble_Buyer}</td>}
-                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.durationCalculation(early.Req_Approval_Date)}</td>}
-
-
-
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.WO_Num}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_ID}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Req_Created_Date)}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Req_Approval_Date)}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.PO_No}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.PO_Date)}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Date_Approved)}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_Descr}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Buyer}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Business_Unit}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.HOLD_STATUS}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Out_to_bid}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_Status}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_Dflt_Tble_Buyer}</td>}
+                    {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.durationCalculation(matchingItem.Req_Approval_Date)}</td>}
                   </tr>
               );
             })}
@@ -285,7 +256,7 @@ class EarlyWarningTable extends React.Component {
         </div>
     );
   };
-//these po's are outside of vehicle maintenance and vehicle engineering we received them via pdf and they're hard coded into this array.
+//these po's are outside of vehicle maintenance and vehicle engineering we received them via pdf and they're hard coded into this array. They were sent via a pdf.
   renderEarlyWarningTablePDF() {
     let count = 0;
     let composite = [];
@@ -344,18 +315,9 @@ class EarlyWarningTable extends React.Component {
               const matchingItem = this.state.compositeArray.find(
                   item => pdf.wo_nbr === item.WO_Num
               );
-
-              //if(matchingItem) console.log(`${pdf.wo_nbr} and ${item.WO_Num}`);
-
-
-
               return (
-
                   <tr key={Math.random()}>
-
-
                     <td>{pdf.wo_nbr}</td>
-
                     {matchingItem && <td>{matchingItem.Executing_Department}</td>}
                     {matchingItem && <td>{matchingItem.Project_ID}</td>}
                     {matchingItem && <td>{matchingItem.Project_Name}</td>}
@@ -376,9 +338,6 @@ class EarlyWarningTable extends React.Component {
                     {matchingItem && <td>{matchingItem.Req_Status}</td>}
                     {matchingItem && <td>{matchingItem.Req_Dflt_Tble_Buyer}</td>}
                     {matchingItem && <td>{this.durationCalculation(matchingItem.Req_Approval_Date)}</td>}
-
-
-
                   </tr>
               );
             })}
@@ -392,6 +351,7 @@ class EarlyWarningTable extends React.Component {
     return (
         <div>
           <h3>Without POs</h3>
+          {this.buildCompositeArray()}
           {this.renderEarlyWarningTableWithoutPO()}
           {this.sortComposite()}
           <h3>With POs</h3>
