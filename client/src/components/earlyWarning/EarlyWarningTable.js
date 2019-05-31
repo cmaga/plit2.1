@@ -1,11 +1,10 @@
 import React from "react";
-
 import fns from "date-fns"; //like lodash for dates
 
 class EarlyWarningTable extends React.Component {
   state = {compositeArray: []};
 
-  //contains mathes between the uploaded (forest) excel sheet and the early warning data pull that is in the database by worker order number
+  //contains matches between the uploaded (forest) excel sheet and the early warning data pull that is in the database by worker order number
  buildCompositeArray = () => {
     let count = 0;
     let composite = [];
@@ -61,24 +60,25 @@ class EarlyWarningTable extends React.Component {
   compareValues(key, order='asc') {
     return function(a, b) {
       if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) return 0;
-      let comparison = a[key].localeCompare(b[key]);
+      let comparison = a[key].localeCompare(b[key], undefined, {'numeric': true});
 
       return (
           (order == 'desc') ? (comparison * -1) : comparison
       );
     };
   }
+
   //Composite array is sorted primarily for grouping of Project ID's
   sortComposite = () => {
-    this.state.compositeArray.sort(this.compareValues('PO_No'));
-    console.log(`sorted array ${this.state.compositeArray}`);
+    this.state.compositeArray.sort(this.compareValues('Project_ID'));
+    //console.log(`sorted array ${this.state.compositeArray}`);
   };
 
 
-  ideaList() {
-    let storedId="X9";
-    let check = true;
-    let uniquePOIdeaArray = [];
+
+//idea list is the list of Po's with no requisitions: since there is no other information for them they are technically just ideas.
+  ideaList = () => {
+    const uniquePOArray = [];
     return (
         <div style={{ overflow: "auto" }}>
           <table className="ui single line table">
@@ -97,18 +97,24 @@ class EarlyWarningTable extends React.Component {
 
               //for current forestArray element names forest check if there is some Project ID that matches in the composite array
               //if it is found return true else false
-              //also only trim by ve vm
               const matchBool = this.state.compositeArray.some(
                 composite => composite.Project_ID === forest.Project_ID
               );
-                storedId = forest.Project_ID;
+                //console.log(`${matchBool}`);
+
+                //search array for the current step
+                //check true when found
+                const check = uniquePOArray.find(id => id === forest.Project_ID);
+                //add the current step id to the array of unique po's if it wasn't found in the array
+                if (!check) uniquePOArray.push(forest.Project_ID);
+
                 return (
-                  <tr key={forest._id}>
-                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance") && <td>{forest.Executing_Department}</td>}
-                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance") && <td>{forest.Project_ID}</td>}
-                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance") && <td>{forest.Project_Name}</td>}
-                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance") && <td>{forest.Director}</td>}
-                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance") && <td>{forest.Project_Manager}</td>}
+                  <tr key={Math.random()}>
+                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance" || forest.Executing_Department === "Vehicle Engineering") && <td>{forest.Executing_Department}</td>}
+                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance" || forest.Executing_Department === "Vehicle Engineering") && <td>{forest.Project_ID}</td>}
+                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance" || forest.Executing_Department === "Vehicle Engineering") && <td>{forest.Project_Name}</td>}
+                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance" || forest.Executing_Department === "Vehicle Engineering") && <td>{forest.Director}</td>}
+                    {!matchBool && !check && (forest.Executing_Department === "Vehicle Maintenance" || forest.Executing_Department === "Vehicle Engineering") && <td>{forest.Project_Manager}</td>}
                   </tr>
                       );
             })}
@@ -120,11 +126,11 @@ class EarlyWarningTable extends React.Component {
 
 
   renderEarlyWarningTableWithoutPO = () => {
-    let count = 0;
-    let composite = [];
+      let storedId = "XD";
+      let color = "active";
     return (
       <div style={{ overflow: "auto" }}>
-        <table className="ui striped fixed single line compact table">
+        <table className="ui fixed single line compact table">
           <thead>
             <tr>
               <th className="1 wide"> Executing Department</th>
@@ -153,10 +159,24 @@ class EarlyWarningTable extends React.Component {
 
           <tbody>
             {this.state.compositeArray.map(matchingItem => {
+                if (matchingItem.Project_ID !== storedId) {
+                    storedId = matchingItem.Project_ID;
+                    //switch color tagsi
+                    if(color==="active") {
+                        color = "";
+                        //console.log(`color switched from dark to white for ${matchingItem.Project_ID} not being equal to ${storedId}`)
+                    }else {
+                        color = "active";
+                        //console.log(`color switched from white to dark for ${matchingItem.Project_ID} not being equal to ${storedId}`)
+                    }
+                }
+                if (matchingItem.Project_ID === storedId) {
+                    //console.log(`${matchingItem.Project_ID} matched with ${storedId} so color did not switch`);
+                }
 
               return (
 
-                <tr key={matchingItem._id}>
+                <tr key={Math.random()} className={color}>
                   {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Executing_Department}</td>}
                   {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_ID}</td>}
                   {matchingItem && matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_Name}</td>}
@@ -191,8 +211,8 @@ class EarlyWarningTable extends React.Component {
   };
 
   renderEarlyWarningTableWithPO = () => {
-    let count = 0;
-    let composite = [];
+      let storedId = "XD";
+      let color = "active";
     return (
         <div style={{ overflow: "auto" }}>
           <table className="ui striped fixed single line compact table">
@@ -224,9 +244,27 @@ class EarlyWarningTable extends React.Component {
 
             <tbody>
             {this.state.compositeArray.map(matchingItem => {
+                //TODO this is the one that messes up the keys
+                if (matchingItem.Project_ID !== storedId) {
+                    storedId = matchingItem.Project_ID;
+                    //switch color tagsi
+                    if(color==="active") {
+                        color = "";
+                        //console.log(`color switched from dark to white for ${matchingItem.Project_ID} not being equal to ${storedId}`)
+                    }else {
+                        color = "active";
+                        //console.log(`color switched from white to dark for ${matchingItem.Project_ID} not being equal to ${storedId}`)
+                    }
+                }
+                /*
+                if (matchingItem.Project_ID === storedId) {
+                    console.log(`${matchingItem.Project_ID} matched with ${storedId} so color did not switch`);
+                }
+
+                 */
               return (
 
-                  <tr key={matchingItem._id}>
+                  <tr key={Math.random()} className = {color}>
                     {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Executing_Department}</td>}
                     {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_ID}</td>}
                     {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_Name}</td>}
@@ -350,16 +388,20 @@ class EarlyWarningTable extends React.Component {
   render() {
     return (
         <div>
-          <h3>Without POs</h3>
           {this.buildCompositeArray()}
-          {this.renderEarlyWarningTableWithoutPO()}
           {this.sortComposite()}
+
+          <h3>Without POs</h3>
+            {this.renderEarlyWarningTableWithoutPO()}
+
           <h3>With POs</h3>
-          {this.renderEarlyWarningTableWithPO()}
-          <h3>PO with no Req</h3>
-          {this.ideaList()}
+            {this.renderEarlyWarningTableWithPO()}
+
+          <h3>Requisitions with no PO</h3>
+            {this.ideaList()}
+
           <h3>Work orders from PDF</h3>
-          {this.renderEarlyWarningTablePDF()}
+            {this.renderEarlyWarningTablePDF()}
         </div>
     )
   }

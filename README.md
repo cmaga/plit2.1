@@ -7,6 +7,10 @@ output:
 
 # PLIT 2.0 manual
 
+## Starting Up the Project
+
+When in a developent environemtn such as a local computer use the command `npm run nodemon` which will call nodemon to automatically run the frontend and backend concurrently. To run the two manually open two terminal windows and from the outermost view of the project type `npm start` and then in the second window type the same command but from the src directory. 
+
 ## Purpose
 
 Plit is a project that contains several tools for the procurement and logistics department at the MBTA. The original PLIT was written in angular and used a MEAN stack. Plit 2.0 is the transition from angular to react.
@@ -21,7 +25,7 @@ This project mainly resides on Github because it has not been deployed to AWS.
 
 This is where the frontend Lives and src entirely in React with Redux.
 
-Redux is also used.
+Redux is also used. There may be data/variables that do not need to be in the Redux store but was put there for learning purposes. Feel free to refactor if needed.
 
 authentication is used for determining if a user is allowed to view a page or not. If a route requires identifcation to be visited a component (the parent component) is passed to the Private route component in the App.js file.
 
@@ -29,7 +33,7 @@ The BidNumber is ready for deployment but the backend is set up so that if you a
 
 EarlyWarning is a report that was originally generated manually using excel and access. This report is just a view generated in a similar manner using an uploaded document that used to be done by someone name forest so this information is often referred to as forest's. The file needs to be uploaded as CSV. There is also an issue with csv/excel. When it is saved any number that starts with 0 has its zeroes removes. Excel believes they are not neccessary. This is mainly an issue with Work order numbers. The solution to this is to tell excel that the work order column contains strings not numbers and then excel will not change the data. The feature supports either a number work order or a string work order. Uploading the excel file as is will still work but for example a Work order number of 0812 will show up as 812 in the report. This is likely to cause confusion as that is not the correct work order number.
 
-Franks Emails: This project was brought to a halt because scott wanted vendor emails to be on FMIS so that all of our data could have just one source. There are scripts on silverback that make the data pull for the items that we want to email for to follow up on. Only vendor ID is pulled. Also nodemailer was being used to send emails and they are blocked on the local network but this should not be an issue when sending emails after deployment on AWS. 
+Franks Emails: This project was brought to a halt because scott wanted vendor emails to be on FMIS so that all of our data could have just one source. There are scripts on silverback that make the data pull for the items that we want to email for to follow up on. Only vendor ID is pulled. Also nodemailer was being used to send emails and they are blocked on the local network but this should not be an issue when sending emails after deployment on AWS.
 
 [<https://provider.www.upenn.edu/computing/da/bo/webi/qna/iv_csvLeadingZeros.html]>
 
