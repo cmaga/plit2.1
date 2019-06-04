@@ -1,5 +1,6 @@
 import React from "react";
 import fns from "date-fns"; //like lodash for dates
+import _ from "lodash";
 
 class EarlyWarningTable extends React.Component {
   state = {compositeArray: []};
@@ -42,7 +43,18 @@ class EarlyWarningTable extends React.Component {
 
     })
   };
-
+  removeCopiesFromCompositeArray= (a) => {
+      for( let i = 0; i < a.length; i++) {
+          //check if the current object is equal to the next object in the array (assumes that ordering has already happened all all copied objects are next to each other
+          for (let j = i + 1; j < a.length; j++) {
+              //if current object is equal to any other object in the array via the loop
+              if (_.isEqual(a[i], a[j])) {
+                  a.splice(i, 1);
+              }
+              //if they are remove one of them from the list of arrays.
+          }
+      }
+  };
   formatDate = string => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(string).toLocaleDateString([], options);
@@ -173,6 +185,7 @@ class EarlyWarningTable extends React.Component {
                 if (matchingItem.Project_ID === storedId) {
                     //console.log(`${matchingItem.Project_ID} matched with ${storedId} so color did not switch`);
                 }
+                console.log(this.state.compositeArray);
 
               return (
 
