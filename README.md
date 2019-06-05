@@ -9,7 +9,7 @@ output:
 
 ## Starting Up the Project
 
-When in a developent environemtn such as a local computer use the command `npm run nodemon` which will call nodemon to automatically run the frontend and backend concurrently. To run the two manually open two terminal windows and from the outermost view of the project type `npm start` and then in the second window type the same command but from the src directory. 
+When in a developent environemtn such as a local computer use the command `npm run nodemon` which will call nodemon to automatically run the frontend and backend concurrently. To run the two manually open two terminal windows and from the outermost view of the project type `npm start` and then in the second window type the same command but from the src directory.
 
 ## Purpose
 
