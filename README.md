@@ -19,6 +19,10 @@ This project is closely connect to other projects such as the pipe also known as
 
 This project mainly resides on Github because it has not been deployed to AWS.
 
+## Trouble Shooting
+
+If the report breaks or doesn't act like its supposed to its most likely the data that has changed. The query is unlikely to change. But the uploaded is external and likely to cause any issues. We have notified Molly to be as consistent as possible but if problems do occur this is a likely source. If multiple projects break and the data wont refresh the issue most likely is with pipeline as this depends on it to update. 
+
 ## Project Strucuture
 
 ### client
@@ -49,6 +53,8 @@ This is what is used for the view on PLIT most of the view has been removed sinc
 
 Aside from the upload the other data resides in FMIS. The early warning query is called using selenium and downloaded and then inserted into the database via python scripts. All the files needed for this data pull are referenced in the tape-early-warning.sh shell file within the ducttape folder on silverback.
 
+For the early warning report there are two collections. forestExcel and EARLY_WARNING. forestExcel takes the uploaded file information and EARLY_WARNING takes the early warning data from fmis.
+
 ## Deployment
 
 There are some concerns and problems that are likely to arise upon deployment. The first one being that you may want a new amazon instance.
@@ -59,4 +65,4 @@ Data Origins: For development silverback was tunneled into and the data pull scr
 
 ## Contact
 
-This Project is mainly built by the co-op team of Spring 2019. Reach out to christophernm@gmail.com if you have any questions.
+This Project is mainly built by the co-op team of Spring 2019. Reach out to christophernm@gmail.com if you have any questions

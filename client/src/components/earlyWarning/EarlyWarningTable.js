@@ -457,4 +457,4 @@ class EarlyWarningTable extends React.Component {
         )
     }
 }
-export default EarlyWarningTable
+export default EarlyWarningTable;
