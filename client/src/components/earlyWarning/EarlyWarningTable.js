@@ -276,7 +276,7 @@ class EarlyWarningTable extends React.Component {
         let color = "";
         return (
             <div style={{ overflow: "auto" }}>
-                <table className="ui striped fixed single line compact table">
+                <table className="ui fixed single line compact table">
                     <thead>
                     <tr>
                         <th className="1 wide"> Executing Department</th>
