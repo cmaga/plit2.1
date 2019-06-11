@@ -19,11 +19,19 @@ This project is closely connect to other projects such as the pipe also known as
 
 This project mainly resides on Github because it has not been deployed to AWS.
 
-## Trouble Shooting
+## TroubleShooting
 
 If the report breaks or doesn't act like its supposed to its most likely the data that has changed. The query is unlikely to change. But the uploaded is external and likely to cause any issues. We have notified Molly to be as consistent as possible but if problems do occur this is a likely source. If multiple projects break and the data wont refresh the issue most likely is with pipeline as this depends on it to update. 
 
 ## Project Strucuture
+
+### Temporary Files
+
+There are a few files that may show up in git as untracked under a path similar to: server/csv/temporary/909d8c7f8f0211f86c6f7bfff7b0b2c3. These files are from the EarlyWarning report and its data from the uploaded csv file. They do not matter and adding or committing these files will give you issues within git and version control.
+
+### Testing
+
+Testing is not being used within this project as of 6/11/2019.
 
 ### client
 
@@ -65,4 +73,4 @@ Data Origins: For development silverback was tunneled into and the data pull scr
 
 ## Contact
 
-This Project is mainly built by the co-op team of Spring 2019. Reach out to christophernm@gmail.com if you have any questions
+This Project is mainly built by the co-op team of Spring 2019. Reach out to magana.c@husky.neu.edu if you have any questions
