@@ -41,6 +41,8 @@ class EarlyWarningTable extends React.Component {
     };
 
 
+
+
     removeCopiesFromCompositeArray = () => {
         for( let i = 0; i < this.state.compositeArray.length; i++) {
 
@@ -191,6 +193,7 @@ class EarlyWarningTable extends React.Component {
     renderEarlyWarningTableWithoutPO = () => {
         let storedId = "XD";
         let color = "";
+        let needs0 = false;
         return (
             <div style={{ overflow: "auto" }}>
                 <table className="ui fixed single line compact table">
@@ -222,6 +225,8 @@ class EarlyWarningTable extends React.Component {
 
                     <tbody>
                     {this.state.compositeArray.map(matchingItem => {
+
+
                         if (matchingItem.Project_ID !== storedId && matchingItem.PO_No === "") {
                             storedId = matchingItem.Project_ID;
                             //switch color tagsi
@@ -235,6 +240,9 @@ class EarlyWarningTable extends React.Component {
                             console.log(`${matchingItem.Project_ID} matched with ${storedId} so color did not switch`);
                         }
 
+                        //correct for missing 0s
+                        needs0 = matchingItem.WO_Num < 100000;
+
                         return (
 
                             <tr key={Math.random()} className={color}>
@@ -244,7 +252,9 @@ class EarlyWarningTable extends React.Component {
                                 {matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Director}</td>}
                                 {matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_Manager}</td>}
 
-                                {matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.WO_Num}</td>}
+                                {matchingItem.PO_No === "" && needs0 && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{'0' + matchingItem.WO_Num}</td>}
+                                {matchingItem.PO_No === "" && !needs0 && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.WO_Num}</td>}
+
                                 {matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_ID}</td>}
                                 {matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Req_Created_Date)}</td>}
                                 {matchingItem.PO_No === "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Req_Approval_Date)}</td>}
@@ -274,6 +284,7 @@ class EarlyWarningTable extends React.Component {
     renderEarlyWarningTableWithPO = () => {
         let storedId = "XD";
         let color = "";
+        let needs0 = false;
         return (
             <div style={{ overflow: "auto" }}>
                 <table className="ui fixed single line compact table">
@@ -314,6 +325,9 @@ class EarlyWarningTable extends React.Component {
                             }
                         }
 
+                        //correct for missing 0s visually
+                        needs0 = matchingItem.WO_Num < 100000;
+
                         return (
 
                             <tr key={Math.random()} className = {color}>
@@ -323,7 +337,8 @@ class EarlyWarningTable extends React.Component {
                                 {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Director}</td>}
                                 {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Project_Manager}</td>}
 
-                                {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.WO_Num}</td>}
+                                {matchingItem && matchingItem.PO_No !== "" && !needs0 && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.WO_Num}</td>}
+                                {matchingItem && matchingItem.PO_No !== "" && needs0 && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{'0' + matchingItem.WO_Num}</td>}
                                 {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{matchingItem.Req_ID}</td>}
                                 {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Req_Created_Date)}</td>}
                                 {matchingItem && matchingItem.PO_No !== "" && (matchingItem.Executing_Department === "Vehicle Engineering" || matchingItem.Executing_Department==="Vehicle Maintenance")  && <td>{this.formatDate(matchingItem.Req_Approval_Date)}</td>}

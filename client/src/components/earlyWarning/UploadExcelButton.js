@@ -25,8 +25,9 @@ state = {dummy: 0};
                 <input type="file"
                        className="positive ui button"
                        name="file"
-                       accept="file_extension/.csv"
-                       onChange={this.handleUploadFile}/>
+                       accept=".csv"
+                       onChange={this.handleUploadFile}
+                />
 
             </div>
         );
