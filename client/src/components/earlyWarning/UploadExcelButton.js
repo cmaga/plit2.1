@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom';
 import plitApi from '../../api/plitApi';
 
 class UploadExcelButton extends React.Component {
@@ -9,9 +10,11 @@ state = {dummy: 0};
 
         plitApi.post('/api/upload', data).then((response) => {
             console.log(response); // do something with the response
+
+            this.setState({dummy: Math.random()});
+            window.location.reload();
         });
 
-        this.setState({dummy: Math.random()});
     };
 
 
