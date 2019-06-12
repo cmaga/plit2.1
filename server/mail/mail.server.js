@@ -8,8 +8,8 @@ let transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'christophernm1999@gmail.com', // generated ethereal user
-        pass: 'Chrisroxs753!'  // generated ethereal password
+        user: 'email@gmail.com', // generated ethereal user
+        pass: 'password'  // generated ethereal password
     },
     tls:{
         rejectUnauthorized:false
@@ -18,8 +18,8 @@ let transporter = nodemailer.createTransport({
 
 // setup email data with unicode symbols
 let mailOptions = {
-    from: '"Nodemailer" <christophernm1999@gmail.com>', // sender address
-    to: 'hichris12009@hotmail.com', // list of receivers
+    from: '"Nodemailer" <emaill@gmail.com>', // sender address
+    to: 'email@gmail.com', // list of receivers
     subject: 'Node Contact Request', // Subject line
     text: 'Hello world?', // plain text body
     html: '<h1>Welcome</h1><p>That was easy!</p>' // html body
