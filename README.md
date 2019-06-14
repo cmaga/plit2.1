@@ -9,45 +9,81 @@ output:
 
 ## Starting Up the Project
 
-When in a developent environemtn such as a local computer use the command `npm run nodemon` which will call nodemon to automatically run the frontend and backend concurrently. To run the two manually open two terminal windows and from the outermost view of the project type `npm start` and then in the second window type the same command but from the src directory.
+When in a developent environemtn such as a local computer use the command `npm run nodemon` which will call nodemon to automatically run the frontend and backend concurrently. To run the two manually open two terminal windows and from the outermost view of the project type `npm start` and then in the second window type the same command but from the client directory.
 
 ## Purpose
 
 Plit is a project that contains several tools for the procurement and logistics department at the MBTA. The original PLIT was written in angular and used a MEAN stack. Plit 2.0 is the transition from angular to react.
 
-This project is closely connect to other projects such as the pipe also known as Project-Ducktape which is how we get the data from fmis into our database.
+This project is closely connect to other projects such as the pipe also known as Project-Ducktape which is how we get the data from FMIS into our database.
 
 This project mainly resides on Github because it has not been deployed to AWS.
 
+## Main Features
+
+EarlyWarning Automation. Uploaded files should be in CSV format. Edit the column that contains `wo_nbr` to be a string rather than a number because leading 0's get removed otherwise. The report generated will still be correct if this is not done but database will have data that is wrong.
+[<https://provider.www.upenn.edu/computing/da/bo/webi/qna/iv_csvLeadingZeros.html]>
+To update the data coming from FMIS go to Project-Ducttape on silver box and type `sh tape-early-warning.sh both local` this will update dev and prod locally. This updates the `EARLY_WARNING` collection on silver box only.
+
+Bid tracking. Bid Number resets each year. Note: If you test by adding a bid, reset the count collection in MongoDB Manually or the next bid created/added will have the wrong number.
+
+Contract Tracking and number assignment.
+
+Login/Logout system with Private routes.
+
+## Unused/unfinished Features
+
+The Backend was taken from PLIT and supports several features that are not being used check the backend for APIs that have already been created so avoid rewriting code.
+
+### Franks Emails
+
+There are 3 experimental branches titled mail.
+
+They are all missing emails and passwords (needed to send on behalf of a user) so they should be inserted to make it work.
+
+Frank needs to send emails to a list of vendors from a query in FMIS called `CM_PO_OPN_BY_BU_BY_DATE_FS`. This query is a copy of the main query `PO_OPN_BY_BU_BY_DATE_FS` and was created for testing purposes.
+
+There is a script that was added to project-ducttape that gets vendor IDs from this query but not vendor emails as they are not a part of this particular query. Adding email information to the FMIS query and editing the python data insertion script to also insert the email would be a good place to pick up this project from.
+
+These scripts while a part of ducttape are neither in the documentation nor in Ohio, nor are they handled by Cron. They reside on silverBox. Other than this they follow the conventions and structure of Project-Ducttape so reading the documentation for that Project (titled Pipe by Mickey Guo) may be helpful.
+
+`tape-po-missing-6.sh` is the shell file that executes the corresponding selenium and data insertion scripts.
+
+Note: The network blocks Nodemailer.
+
 ## TroubleShooting
 
-If the report breaks or doesn't act like its supposed to its most likely the data that has changed. The query is unlikely to change. But the uploaded is external and likely to cause any issues. We have notified Molly to be as consistent as possible but if problems do occur this is a likely source. If multiple projects break and the data wont refresh the issue most likely is with pipeline as this depends on it to update. 
+If the report breaks or doesn't act like its supposed to its most likely the data that has changed. The query(FMIS) is unlikely to change. We have notified Molly (person who sends the excel to be uploaded) to be as consistent as possible but if problems do occur this is a likely source. The following is what the names of the Excel file (from molly) should be and if they're included in the early warning report:
+
+| Variable Names       | Included?     |
+| -------------        |:-------------:|
+| wo_nbr               | yes           |
+| status               | yes           |
+| Project_ID           | yes           |
+| Project_Name         | yes           |
+| Executing_Department | yes           |
+| Director             | yes           |
+| Project_Manger       | yes           |
+| WO_date_approved     | yes           |
+| wo_descr             | no            |
+| cntrc_nbr            | no            |
+| grant_id             | no            |
 
 ## Project Strucuture
+
+## Testing
+
+Testing is not being used within this project as of 6/11/2019.
 
 ### Temporary Files
 
 There are a few files that may show up in git as untracked under a path similar to: server/csv/temporary/909d8c7f8f0211f86c6f7bfff7b0b2c3. These files are from the EarlyWarning report and its data from the uploaded csv file. They do not matter and adding or committing these files will give you issues within git and version control.
 
-### Testing
-
-Testing is not being used within this project as of 6/11/2019.
-
 ### client
 
-This is where the frontend Lives and src entirely in React with Redux.
+Houses frontend.
 
-Redux is also used. There may be data/variables that do not need to be in the Redux store but was put there for learning purposes. Feel free to refactor if needed.
-
-authentication is used for determining if a user is allowed to view a page or not. If a route requires identifcation to be visited a component (the parent component) is passed to the Private route component in the App.js file.
-
-The BidNumber is ready for deployment but the backend is set up so that if you add a new bid number the count for the current year will begin. That means that if it is tested before deployment to ensure that it is working properly the count will have to be adjusted and reset so that the next time a bid number is added it will start counting from one.
-
-EarlyWarning is a report that was originally generated manually using excel and access. This report is just a view generated in a similar manner using an uploaded document that used to be done by someone name forest so this information is often referred to as forest's. The file needs to be uploaded as CSV. There is also an issue with csv/excel. When it is saved any number that starts with 0 has its zeroes removes. Excel believes they are not neccessary. This is mainly an issue with Work order numbers. The solution to this is to tell excel that the work order column contains strings not numbers and then excel will not change the data. The feature supports either a number work order or a string work order. Uploading the excel file as is will still work but for example a Work order number of 0812 will show up as 812 in the report. This is likely to cause confusion as that is not the correct work order number.
-
-Franks Emails: This project was brought to a halt because scott wanted vendor emails to be on FMIS so that all of our data could have just one source. There are scripts on silverback that make the data pull for the items that we want to email for to follow up on. Only vendor ID is pulled. Also nodemailer was being used to send emails and they are blocked on the local network but this should not be an issue when sending emails after deployment on AWS. There are 3 branches that were being used for this project and they all have the title mail. It requires an email and password to work but it has been removed due to security reasons. At least one of the branches should be able to send an email (if not connected to the MBTA network since the network blocks this kind of traffic. This should not be an issue after deployment so testing on a hotspot is good if testing on a local machine is desired) simply replace anywhere that it says email@email/gmail.com and password with genuine accounts (should be sending from a gmail account, if not the smtp server should be changed in the code). The 3 branches are missing the early Warning feature so a git rebase may be a good choice. Only one email gets sent when the server first starts.
-
-[<https://provider.www.upenn.edu/computing/da/bo/webi/qna/iv_csvLeadingZeros.html]>
+Src is React/Redux. Some Variables may not need to be in Redux but were placed there for learning purposes if a refactor is need feel free.
 
 ### `Server/`
 
@@ -65,11 +101,7 @@ For the early warning report there are two collections. forestExcel and EARLY_WA
 
 ## Deployment
 
-There are some concerns and problems that are likely to arise upon deployment. The first one being that you may want a new amazon instance.
-
-Nodemon if you're not familiar automatically restarts the server when changes in the backend are detected. When in development on a local machine the server should be started with "nmp run nodemon" and this concurrently runs the react and express portions of the project. When deployed the server should not be started this way because there is a part of the backend that is responsible for the trello view mentiond in the Public portion of the documentation in line 40. This portion of the backend is able to rewrite a specific part of the backend that can be found in the left over public folder from angular. Nodemon detects these changes and restarts. This is not an issue in development but upon deployment would be inconvenient to users and could cause errors.
-
-Data Origins: For development silverback was tunneled into and the data pull scripts were created. Running the early warning shell file with the options both and local ex: sh tape-early-warning.sh both local will update both the dev and prod databases and local will keep the update to silverback. This is important becuase the scripts DO NOT EXIST on ohio and the data pull is not yet automatically done by cron. This is because this project was not deployed to AWS server yet. When this happens all of the data fetching scripts should be brought over as well. Pleas see the Pipe.md documentation on pipeline before doing this to fully understand the structure of the project.
+Do not use nodemon when deploying it causes too many server restarts that we don't want once the site is live.
 
 ## Contact
 
