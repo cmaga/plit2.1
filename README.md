@@ -70,7 +70,7 @@ If the report breaks or doesn't act like its supposed to its most likely the dat
 
 ## Project Strucuture
 
-## Testing
+### Testing
 
 Testing is not being used within this project as of 6/11/2019.
 
@@ -78,11 +78,11 @@ Testing is not being used within this project as of 6/11/2019.
 
 There are a few files that may show up in git as untracked under a path similar to: server/csv/temporary/909d8c7f8f0211f86c6f7bfff7b0b2c3. These files are from the EarlyWarning report and its data from the uploaded csv file. They do not matter and adding or committing these files will give you issues within git and version control.
 
-### client
+### `client/`
 
 Houses frontend.
 
-Src is React/Redux. Some Variables may not need to be in Redux but were placed there for learning purposes if a refactor is need feel free.
+`/Src` is React/Redux. Some Variables may not need to be in Redux but were placed there for learning purposes if a refactor is need feel free.
 
 ### `Server/`
 
