@@ -7,8 +7,54 @@ import {SIGN_IN,
     CREATE_BID,
     DELETE_BID,
     EDIT_BID,
-    SEARCH_NAME
+    SEARCH_NAME,
+    CONTRACT,
+    CONTRACTS,
+    CREATE_CONTRACT,
+    EDIT_CONTRACT,
+    DELETE_CONTRACT
 } from "./types";
+
+export const getContracts = () => async dispatch => {
+  const response = await plitApi.get('/api/contracts');
+
+    dispatch({
+        type: CONTRACTS
+    });
+};
+export const getContract = () => async dispatch => {
+    const response = await plitApi.get('/api/contract');
+    dispatch({
+        type: CONTRACT,
+        payload: response.data
+    });
+};
+export const contractCreate = (formValues) => async dispatch => {
+  const response = await plitApi.post("/api/add-bid", formValues);
+
+    dispatch ({
+        type: CREATE_CONTRACT,
+        payload: response.data
+    });
+};
+
+export const contractDelete = (contractId) => async dispatch => {
+    const response = await plitApi.delete(`/api/remove-contract/${contractId}`);
+
+    dispatch ({
+        type: DELETE_CONTRACT,
+        payload: contractId
+    });
+};
+
+export const editContract = (formValues, contractId) => async dispatch => {
+  const response = await plitApi.put(`api/update-contract/${contractId}`, formValues);
+
+    dispatch({
+        type: EDIT_CONTRACT,
+        payload: response.data
+    });
+};
 
 
 //just need to call auth to change state

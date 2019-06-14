@@ -31,6 +31,7 @@ require("./server/excel/services/early.warning.service.server");
 require("./server/bids/services/bid.service.server");
 require("./server/document_editor/document_editor.service.server");
 
+require("./server/confirmedContracts/services/contract.service.server");
 require("./server/bids/services/file.service.server");
 require("./server/vendors/services/vendor.service.server");
 require("./server/bid-num/services/bid-num.service.server");
