@@ -21,15 +21,14 @@ This project mainly resides on Github because it has not been deployed to AWS.
 
 ## Main Features
 
-..*EarlyWarning Automation. Uploaded files should be in CSV format. Edit the column that contains `wo_nbr` to be a string rather than a number because leading 0's get removed otherwise. The report generated will still be correct if this is not done but database will have data that is wrong.
+* EarlyWarning Automation. Uploaded files should be in CSV format. Edit the column that contains `wo_nbr` to be a string rather than a number because leading 0's get removed otherwise. The report generated will still be correct if this is not done but database will have data that is wrong.
 [<https://provider.www.upenn.edu/computing/da/bo/webi/qna/iv_csvLeadingZeros.html]>
 To update the data coming from FMIS go to Project-Ducttape on silver box and type `sh tape-early-warning.sh both local` this will update dev and prod locally. This updates the `EARLY_WARNING` collection on silver box only.
+* Bid tracking. Bid Number resets each year. Note: If you test by adding a bid, reset the count collection in MongoDB Manually or the next bid created/added will have the wrong number.
 
-..*Bid tracking. Bid Number resets each year. Note: If you test by adding a bid, reset the count collection in MongoDB Manually or the next bid created/added will have the wrong number.
+* Contract Tracking and number assignment.
 
-..*Contract Tracking and number assignment.
-
-..*Login/Logout system with Private routes.
+* Login/Logout system with Private routes.
 
 ## Unused/unfinished Features
 
@@ -37,17 +36,17 @@ The Backend was taken from PLIT and supports several features that are not being
 
 ### Franks Emails
 
-..*There are 3 experimental branches titled mail.
+* There are 3 experimental branches titled mail.
 
-..*They are all missing emails and passwords (needed to send on behalf of a user) so they should be inserted to make it work.
+* They are all missing emails and passwords (needed to send on behalf of a user) so they should be inserted to make it work.
 
-..*Frank needs to send emails to a list of vendors from a query in FMIS called `CM_PO_OPN_BY_BU_BY_DATE_FS`. This query is a copy of the main query `PO_OPN_BY_BU_BY_DATE_FS` and was created for testing purposes.
+* Frank needs to send emails to a list of vendors from a query in FMIS called `CM_PO_OPN_BY_BU_BY_DATE_FS`. This query is a copy of the main query `PO_OPN_BY_BU_BY_DATE_FS` and was created for testing purposes.
 
-..*There is a script that was added to project-ducttape that gets vendor IDs from this query but not vendor emails as they are not a part of this particular query. Adding email information to the FMIS query and editing the python data insertion script to also insert the email would be a good place to pick up this project from.
+* There is a script that was added to project-ducttape that gets vendor IDs from this query but not vendor emails as they are not a part of this particular query. Adding email information to the FMIS query and editing the python data insertion script to also insert the email would be a good place to pick up this project from.
 
-..*These scripts while a part of ducttape are neither in the documentation nor in Ohio, nor are they handled by Cron. They reside on silverBox. Other than this they follow the conventions and structure of Project-Ducttape so reading the documentation for that Project (titled Pipe by Mickey Guo) may be helpful.
+*These scripts while a part of ducttape are neither in the documentation nor in Ohio, nor are they handled by Cron. They reside on silverBox. Other than this they follow the conventions and structure of Project-Ducttape so reading the documentation for that Project (titled Pipe by Mickey Guo) may be helpful.
 
-..*`tape-po-missing-6.sh` is the shell file that executes the corresponding selenium and data insertion scripts.
+* `tape-po-missing-6.sh` is the shell file that executes the corresponding selenium and data insertion scripts.
 
 Note: The network blocks Nodemailer.
 
