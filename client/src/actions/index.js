@@ -143,7 +143,7 @@ export const editBid = (formValues, bidId) => async dispatch => {
     });
 };
 
-export const searchBids = (searchInput) => {
+export const search = (searchInput) => {
   return {
       type: SEARCH_NAME,
       payload: searchInput

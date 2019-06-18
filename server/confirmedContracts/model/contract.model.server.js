@@ -12,7 +12,7 @@ module.exports = contract2Model;
 function createContract(contract) {
     //bid.Timeframe = Date.parse(bid.Timeframe);
     console.log('model');
-    console.log("server" + JSON.stringify(contract));
+    console.log("server sees this as contract" + JSON.stringify(contract));
 
     return contract2Model.create(contract);
 }

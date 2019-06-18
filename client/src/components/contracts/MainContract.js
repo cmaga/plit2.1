@@ -1,7 +1,7 @@
 import React from 'react';
 
-import AddBidButton from './AddBidButton';
-import Search from './Search';
+import AddBidButton from './AddContractButton';
+import Search from '../bids/Search';
 
 const MainBid = () => {
 

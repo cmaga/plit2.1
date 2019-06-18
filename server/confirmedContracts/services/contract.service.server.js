@@ -1,7 +1,7 @@
 //files you're including
 var app = require('../../../express');
 var contractModel = require('../model/contract.model.server');
-var counterModel = require('../model/counter.model.server');
+var counter2Model = require('../model/counter2.model.server');
 
 //ties an express path/route with a certain function. Those functions are defined below. The colon means it gets replaced with its associated value. 
 app.post('/api/add-contract', createContract);
@@ -18,16 +18,17 @@ app.put('/api/save-fields/:contractNum', saveFields);
 function createContract(req, res) {
     console.log('service');
     var contract = req.body;
+    console.log(req.body);
     //var b_id = bid.Bid_Type;
     //var fund = bid.Fund_Code.slice(-1);
     var contractNum = 0;
     //var d = new Date;
-    console.log('creating bid');
-    counterModel.getCount()
+    console.log('creating contract');
+    counter2Model.getCount()
         .then(function (response) {
             console.log(response);
             contractNum = response.Count;
-            counterModel.incrCount().then(function(error){
+            counter2Model.incrCount().then(function(error){
                 console.log(error);
                 contract.Contract_Num = contractNum;
                 contractModel

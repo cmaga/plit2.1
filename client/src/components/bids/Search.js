@@ -2,15 +2,15 @@ import React from 'react';
 
 import {Form, Field} from 'react-final-form';
 import {connect} from 'react-redux';
-import { searchBids } from '../../actions/index';
+import { search } from '../../actions/index';
 
-class BidSearch extends React.Component {
+class Search extends React.Component {
 
     renderInput = ({input}) => {
       return (
           <div className="ui right aligned search">
               <div className="ui icon input">
-              <input {...input} type="text" placeholder="Search Bids..." className = "prompt"/>
+              <input {...input} type="text" placeholder="Search..." className = "prompt"/>
                   <i className = "search icon"/>
               </div>
           </div>
@@ -18,7 +18,7 @@ class BidSearch extends React.Component {
     };
 
     onSubmit = (formValues) => {
-      this.props.searchBids(formValues);
+      this.props.search(formValues);
     };
 
  render() {
@@ -30,7 +30,7 @@ class BidSearch extends React.Component {
 
                <form onSubmit={handleSubmit}>
                        <div className = "inline">
-                            <Field name = "search" component = {this.renderInput} label="Search for a Bid" />
+                            <Field name = "search" component = {this.renderInput} label="Search" />
                             <button className = "ui button primary">Search</button>
                        </div>
 
@@ -42,4 +42,4 @@ class BidSearch extends React.Component {
  }
 }
 
-export default connect(null, {searchBids})(BidSearch);
+export default connect(null, {search})(Search);

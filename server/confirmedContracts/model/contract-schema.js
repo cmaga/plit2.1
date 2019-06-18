@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var cSchema = mongoose.Schema({
         'Contract_Num': Number,
-        'FC Number': Number,
+        'FC_Number': Number,
         'Date': Date,
         'Description': String,
         'Project_Num_or_Fund': String,

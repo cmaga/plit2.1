@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import _ from 'lodash';
 
 import {bidList} from '../../actions';
-import MainBid from './MainBid';
+import MainBid from './MainContract';
 import Options from './Options';
 
 class ContractsList extends React.Component {
