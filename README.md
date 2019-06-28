@@ -1,15 +1,13 @@
----
-output:
-  word_document: default
-  pdf_document: default
-  html_document: default
----
 
-# PLIT 2.0 manual
+
+# PLIT React manual
 
 ## Starting Up the Project
 
-When in a developent environemtn such as a local computer use the command `npm run nodemon` which will call nodemon to automatically run the frontend and backend concurrently. To run the two manually open two terminal windows and from the outermost view of the project type `npm start` and then in the second window type the same command but from the client directory.
+`npm run nodemon` To automatically run the frontend and backend concurrently. 
+
+ `npm start` 
+To run the two manually. Run from the outermost view of the project (server) and then in another terminal repeat to get the frontend running.
 
 ## Purpose
 
@@ -49,6 +47,13 @@ The Backend was taken from PLIT and supports several features that are not being
 * `tape-po-missing-6.sh` is the shell file that executes the corresponding selenium and data insertion scripts.
 
 Note: The network blocks Nodemailer.
+
+### Contract Tracking and Number Assignment
+
+*exists only as a the branch called contractNumber
+
+*The feature is not fully built out in the front end but backend support (server side) is there.
+
 
 ## TroubleShooting
 
